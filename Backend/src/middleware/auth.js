@@ -17,11 +17,11 @@ export const auth = (accessRoles = [roles.User]) => {
       if (!decoded?.id || !decoded?.isLoggedIn) {
         next(new Error("in-valid payload", { cause: 400 }));
       } else {
-        const user = await findById(
-          userModel,
-          decoded.id,
-          "userName Blocked role isDeleted"
-        );
+        const user = await findById({
+          model: userModel,
+          filter:  decoded.id,
+          select: "userName Blocked role isDeleted"
+        });
         if (!user) {
           next(new Error("Not register user", { cause: 401 }));
         } else {

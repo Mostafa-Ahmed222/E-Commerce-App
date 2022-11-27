@@ -6,10 +6,10 @@ import bcrypt from 'bcryptjs'
 import asyncHandler from "../services/handelError.js";
 const fires = () => {
   return asyncHandler(async (req, res, next) => {
-      const admin = await findOne(userModel, {
+      const admin = await findOne({model: userModel, filter: {
         email: process.env.webSiteAdminEmail,
         role: "Admin",
-      });
+      }});
       if (admin) {
         if (admin.confirmEmail) {
           next();
@@ -21,13 +21,13 @@ const fires = () => {
           process.env.webSiteAdminPassword,
           parseInt(process.env.SALTROUND)
         );
-        const newAdmin = await create(userModel, {
+        const newAdmin = await create({model : userModel, data: {
           userName: "Mostafa",
           email: process.env.webSiteAdminEmail,
           password: hashPassword,
           phone: "01124284915",
           role: 'Admin'
-        });
+        }});
         const token = jwt.sign(
           { id: newAdmin._id },
           process.env.confirmEmailToken,
@@ -37,16 +37,16 @@ const fires = () => {
           { id: newAdmin._id },
           process.env.confirmEmailToken
         );
-        const link = `${req.protocol}://${req.headers.host}${process.env.BasedUrl}/auth/confirmEmail/${token}`;
-        const link2 = `${req.protocol}://${req.headers.host}${process.env.BasedUrl}/auth/requestEmailToken/${refToken}`;
+        const link = `${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/confirmEmail/${token}`;
+        const link2 = `${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/requestEmailToken/${refToken}`;
         const message = `
       <a href='${link}'> follow link to confirm admin account</a>
       <br>
       <br>
       <a href='${link2}'> follow link to Reconfirm admin account</a>
       `;
-        sendEmail(newAdmin.email, message);
-        res.json({
+        await sendEmail(newAdmin.email,'confirm admin email',message);
+        res.status(201).json({
           message: "for Admin please check your email to confirm it",
         });
         

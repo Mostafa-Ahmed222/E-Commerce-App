@@ -1,11 +1,11 @@
 import { Schema, model, Types } from "mongoose";
 
-const subCategorySchema = new Schema(
+const brandSchema = new Schema(
   {
     name: {
+      required: [true, "brandName is required"],
       type: String,
-      required: [true, "categoryName is required"],
-      unique: [true, "categoryName is unique"],
+      unique: [true, "brandName is unique"],
       min: [2, "minimum length 2 char"],
       max: [20, "maximum length 20 char"],
       lowercase: true,
@@ -20,18 +20,13 @@ const subCategorySchema = new Schema(
     },
     image: {
       type: String,
-      required: [true, "image is required"],
+      required: [true, "logo is required"],
     },
     publicImageId: {
       type: String,
       required: [true, "publicImageId is required"],
     },
-    categoryId: {
-        type: Types.ObjectId, 
-        ref: 'Category',
-        required: [true, "can not add subCategory without Category"]
-    },
-    createdBy: { type: Types.ObjectId, ref: 'User', required: [true, "can not add subCategory without owner"] },
+    createdBy: { type: Types.ObjectId, ref: 'User', required: [true, "can not add brand without owner"] },
     updatedBy: { type: Types.ObjectId, ref: 'User'},
   },
   {
@@ -39,5 +34,5 @@ const subCategorySchema = new Schema(
   }
 );
 
-const subCategoryModel = model("SubCategory", subCategorySchema);
-export default subCategoryModel;
+const brandModel = model("Brand", brandSchema);
+export default brandModel;

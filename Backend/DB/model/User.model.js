@@ -34,6 +34,7 @@ const userSchema = new Schema(
         default: false,
     },
     image: String,
+    publicImageId : String,
     DOB: String,
     code : String
   },

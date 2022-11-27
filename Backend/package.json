@@ -27,6 +27,7 @@
     "node-schedule": "^2.1.0",
     "nodejs-nodemailer-outlook": "^1.2.4",
     "nodemailer": "^6.8.0",
-    "qrcode": "^1.5.1"
+    "qrcode": "^1.5.1",
+    "slugify": "^1.6.5"
   }
 }

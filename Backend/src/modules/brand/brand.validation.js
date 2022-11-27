@@ -1,12 +1,19 @@
 import joi from "joi";
 
-
-export const addSubCategory = {
+export const addBrand = {
   body: joi.object().required().keys({
     name: joi.string().required()
   }),
+  headers: joi.object().required().keys({
+    authorization: joi.string().required()
+  }).options({allowUnknown : true})
+};
+export const updateBrand = {
+  body: joi.object().required().keys({
+    name: joi.string()
+  }),
   params : joi.object().required().keys({
-    categoryId: joi
+    id: joi
         .string()
         .pattern(new RegExp(/^[a-fA-F0-9]{24}$/))
         .required(),
@@ -15,16 +22,14 @@ export const addSubCategory = {
     authorization: joi.string().required()
   }).options({allowUnknown : true})
 }
-export const updateSubCategory = {
-  body: joi.object().required().keys({
-    name: joi.string()
-  }),
+export const getBrands = {
+  headers: joi.object().required().keys({
+    authorization: joi.string().required()
+  }).options({allowUnknown : true})
+}
+export const getBrand = {
   params : joi.object().required().keys({
-    categoryId: joi
-        .string()
-        .pattern(new RegExp(/^[a-fA-F0-9]{24}$/))
-        .required(),
-    subCategoryId: joi
+    id: joi
         .string()
         .pattern(new RegExp(/^[a-fA-F0-9]{24}$/))
         .required(),
@@ -32,20 +37,4 @@ export const updateSubCategory = {
   headers: joi.object().required().keys({
     authorization: joi.string().required()
   }).options({allowUnknown : true})
-};
-export const getCategories = {
-  headers: joi.object().required().keys({
-    authorization: joi.string().required()
-  }).options({allowUnknown : true})
-};
-export const getSubCategory = {
-  params : joi.object().required().keys({
-    subCategoryId: joi
-        .string()
-        .pattern(new RegExp(/^[a-fA-F0-9]{24}$/))
-        .required(),
-  }),
-  headers: joi.object().required().keys({
-    authorization: joi.string().required()
-  }).options({allowUnknown : true})
-};
+}

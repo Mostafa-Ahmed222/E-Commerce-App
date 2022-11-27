@@ -16,6 +16,7 @@ export const signup = {
         "string.base": "please enter valid string email",
       }),
       phone: joi.string(),
+      DOB: joi.string(),
       password: joi
         .string()
         .pattern(

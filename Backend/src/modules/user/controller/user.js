@@ -5,38 +5,38 @@ import bcrypt from 'bcryptjs';
 
 export const updatePassword = asyncHandler(async (req, res, next)=>{
     const {oldPassword, newPassword} = req.body
-    const user = await findById(userModel, req.authUser._id)
+    const user = await findById({model: userModel,filter: req.authUser._id})
     const match = bcrypt.compareSync(oldPassword, user.password)
     if (!match) {
         next(new Error("old password not match with current password", {cause: 409}))
     } else {
         const hash = bcrypt.hashSync(newPassword, parseInt(process.env.SALTROUND))
-        await updateOne(userModel, {_id: req.authUser._id}, {password : hash})
+        await updateOne({model: userModel,filter: {_id: req.authUser._id},data: {password : hash}})
         res.status(200).json({message: 'Done'})
     }
 })
 export const softDelete = asyncHandler(async (req, res, next)=>{
-    await updateOne(userModel, {_id: req.authUser._id, isDeleted: false}, {
+    await updateOne({model: userModel,filter: {_id: req.authUser._id, isDeleted: false},data: {
         isDeleted: true
-    })
-    res.json({message : 'Done'})
+    }})
+    res.status(200).json({message : 'Done'})
 })
 export const getUserById = asyncHandler(async (req, res, next)=>{
     const {id}= req.params
-    const user = await findById(userModel, id, "-password")
+    const user = await findById({model: userModel,filter: id,select: "-password"})
     user? res.status(200).json({message: 'Done', user}) :
      next(new Error('user Not found', {cause : 404}))
 })
 export const blockUser = asyncHandler(async (req, res, next)=>{
     const {id}= req.params
-    const user = await findById(userModel, id, "-password")
+    const user = await findById({model: userModel,filter: id, select: "-password"})
     if (!user) {
         next(new Error('user Not found', {cause : 404}))
     } else {
         if (user.Blocked) {
             next(new Error('user already blocked', {cause : 409}))
         } else {
-            await updateOne(userModel,{_id: id}, {Blocked : true})
+            await updateOne({model: userModel, filter: {_id: id},data: {Blocked : true}})
             res.status(200).json({message: 'Done'})
         }
     }

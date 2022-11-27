@@ -22,10 +22,12 @@ if (process.env.MOOD === 'DEV') {
     app.use(morgan('dev'))
 }
 // setup api routing
-app.use(`${baseurl}/auth`, fires(), indexRouter.authRouter)
+app.use(`${baseurl}/auth`, indexRouter.authRouter)
 app.use(`${baseurl}/user`, fires(), indexRouter.userRouter)
 app.use(`${baseurl}/category`, fires(), indexRouter.categoryRouter)
 app.use(`${baseurl}/subCategory`, fires(), indexRouter.subcategoryRouter)
+app.use(`${baseurl}/brand`, fires(), indexRouter.brandRouter)
+app.use(`${baseurl}/product`, fires(), indexRouter.productRouter)
 app.use('*', (req, res)=>{
     res.status(404).send('In-valid Routing')
 })

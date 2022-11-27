@@ -8,14 +8,26 @@ const categorySchema = new Schema(
       unique: [true, "categoryName is unique"],
       min: [2, "minimum length 2 char"],
       max: [20, "maximum length 20 char"],
-      lowercase: true
+      lowercase: true,
+      trim: true
+    },
+    slug: {
+      type : String,
+      required: [true, "slug is required"],
+      unique: [true, "slug is unique"],
+      lowercase: true,
+      trim: true
     },
     image: {
       type: String,
       required: [true, "image is required"],
     },
+    publicImageId: {
+      type: String,
+      required: [true, "publicImageId is required"],
+    },
     createdBy: { type: Types.ObjectId, ref: 'User', required: [true, "can not add category without owner"] },
-  },
+    updatedBy: { type: Types.ObjectId, ref: 'User'} },
   {
     timestamps: true,
   }
