@@ -9,9 +9,9 @@ import endPoints from "./brand.endPoint.js";
 const router = Router()
 
 // add brand
-router.post('/', auth(endPoints.addBrand), myMulter(validationTypes.image).single('image'),validation(validators.addBrand),  brandController.addBrand)
+router.post('/', myMulter(validationTypes.image).single('image'),validation(validators.addBrand), auth(endPoints.addBrand), brandController.addBrand)
 // update brand by id
-router.put('/:id', auth(endPoints.updateBrand), myMulter(validationTypes.image).single('image'),validation(validators.updateBrand), brandController.updateBrand)
+router.put('/:id', myMulter(validationTypes.image).single('image'),validation(validators.updateBrand), auth(endPoints.updateBrand), brandController.updateBrand)
 // get all brands
 router.get('/', validation(validators.getBrands), auth(endPoints.getBrand),brandController.getBrands)
 // get brand by id

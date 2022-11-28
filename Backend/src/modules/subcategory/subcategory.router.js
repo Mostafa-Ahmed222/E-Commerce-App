@@ -8,9 +8,9 @@ import endPoints from "./subcategory.endPoint.js";
 const router = Router({mergeParams: true})
 
 // add subCategory
-router.post('/', auth(endPoints.addSubCategory), myMulter(validationTypes.image).single('image'),validation(validators.addSubCategory), subCategoryController.addSubCategory)
+router.post('/', myMulter(validationTypes.image).single('image'),validation(validators.addSubCategory), auth(endPoints.addSubCategory), subCategoryController.addSubCategory)
 // update subCategory by id
-router.put('/:subCategoryId',auth(endPoints.updateSubCategory), myMulter(validationTypes.image).single('image'),validation(validators.updateSubCategory), subCategoryController.updateSubCategory)
+router.put('/:subCategoryId', myMulter(validationTypes.image).single('image'),validation(validators.updateSubCategory), auth(endPoints.updateSubCategory), subCategoryController.updateSubCategory)
 // get subCategory by id
 router.get('/', validation(validators.getCategories), auth(endPoints.getSubCategories),subCategoryController.getCategories)
 // get all subCategories

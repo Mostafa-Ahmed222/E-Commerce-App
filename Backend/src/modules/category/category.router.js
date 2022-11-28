@@ -11,9 +11,9 @@ const router = Router()
 // routing
 router.use('/:categoryId/subCategory', subCategoryRouter)
 // add category
-router.post('/', auth(endPoints.addCategory), myMulter(validationTypes.image).single('image'),validation(validators.addCategory),  categoryController.addCategory)
+router.post('/', myMulter(validationTypes.image).single('image'),validation(validators.addCategory), auth(endPoints.addCategory),  categoryController.addCategory)
 // update category by id
-router.put('/:id', auth(endPoints.updateCategory), myMulter(validationTypes.image).single('image'),validation(validators.updateCategory), categoryController.updateCategory)
+router.put('/:id', myMulter(validationTypes.image).single('image'),validation(validators.updateCategory), auth(endPoints.updateCategory), categoryController.updateCategory)
 // get all categories
 router.get('/', validation(validators.getCategories), auth(endPoints.getCategory),categoryController.getCategories)
 // get category by id

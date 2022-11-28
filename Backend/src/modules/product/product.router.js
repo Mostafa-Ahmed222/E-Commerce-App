@@ -9,9 +9,9 @@ import endPoints from "./product.endPoint.js";
 const router = Router()
 
 // add product
-router.post('/', auth(endPoints.addProduct), myMulter(validationTypes.image).array('image'),validation(validators.addProduct), productController.addProduct)
+router.post('/', myMulter(validationTypes.image).array('image'),validation(validators.addProduct), auth(endPoints.addProduct), productController.addProduct)
 // update product by id
-router.put('/:id', auth(endPoints.updateProduct), myMulter(validationTypes.image).array('image'),validation(validators.updateProduct), productController.updateProduct)
+router.put('/:id', myMulter(validationTypes.image).array('image'),validation(validators.updateProduct), auth(endPoints.updateProduct), productController.updateProduct)
 // get all products
 router.get('/', validation(validators.getProducts), auth(endPoints.getProduct),productController.getProducts)
 // get product by id
