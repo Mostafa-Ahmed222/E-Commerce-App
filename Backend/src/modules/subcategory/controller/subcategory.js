@@ -162,7 +162,7 @@ export const getSubCategory = asyncHandler(async (req, res, next) => {
     next(new Error("In-Valid sub category id", { cause: 404 }));
   }
 });
-export const getCategories = asyncHandler(async (req, res, next) => {
+export const getSubCategories = asyncHandler(async (req, res, next) => {
   const { skip, limit } = paginate(req.query.page, req.query.size);
   // const SubCategories = await find({
   //   model: subCategoryModel,

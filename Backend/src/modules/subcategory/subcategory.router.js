@@ -12,7 +12,7 @@ router.post('/', myMulter(validationTypes.image).single('image'),validation(vali
 // update subCategory by id
 router.put('/:subCategoryId', myMulter(validationTypes.image).single('image'),validation(validators.updateSubCategory), auth(endPoints.updateSubCategory), subCategoryController.updateSubCategory)
 // get subCategory by id
-router.get('/', validation(validators.getCategories), auth(endPoints.getSubCategories),subCategoryController.getCategories)
+router.get('/', validation(validators.getCategories), auth(endPoints.getSubCategories),subCategoryController.getSubCategories)
 // get all subCategories
 router.get('/:subCategoryId',validation(validators.getSubCategory), auth(endPoints.getSubCategory),subCategoryController.getSubCategory)
 

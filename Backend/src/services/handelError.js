@@ -15,7 +15,7 @@ export const globalError = (err, req, res, next)=>{
   if (err) {
     if (process.env.MOOD === 'DEV') {
       typeof(err) === 'string' ? res.status(400).json({message: err}) :
-        res.status(err['cause'] || 500).json({message: err.message})
+        res.status(err['cause'] || 500).json({message: err.message, stack: err.stack})
     } else {
       typeof(err) === 'string' ? res.status(400).json({message: err}) :
         res.status(err['cause'] || 500).json({message: err.message})

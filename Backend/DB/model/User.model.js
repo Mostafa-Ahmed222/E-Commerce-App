@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 const userSchema = new Schema(
   {
@@ -36,7 +36,8 @@ const userSchema = new Schema(
     image: String,
     publicImageId : String,
     DOB: String,
-    code : String
+    code : String,
+    wishlist : [{type : Types.ObjectId, ref : 'Product'}]
   },
   {
     timestamps: true,

@@ -128,7 +128,7 @@ export const getCategory = asyncHandler(async (req, res, next) => {
   //   : next(new Error("In-Valid category id", { cause: 404 }));
 });
 export const getCategories = asyncHandler(async (req, res, next) => {
-  const { skip, limit } = paginate(req.query.page, req.query.size);
+  // const { skip, limit } = paginate(req.query.page, req.query.size);
   const cursor = categoryModel
     .find({})
     .populate([
@@ -141,8 +141,8 @@ export const getCategories = asyncHandler(async (req, res, next) => {
         select: "userName email",
       },
     ])
-    .limit(limit)
-    .skip(skip)
+    // .limit(limit)
+    // .skip(skip)
     .cursor();
   const categories = [];
   for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {

@@ -14,181 +14,163 @@ import {
 import paginate from "../../../services/paginate.js";
 
 export const addProduct = asyncHandler(async (req, res, next) => {
+  const { price, discount } = req.body;
   if (!req.files?.length) {
-    next(new Error("images is required please upload it", { cause: 400 }));
-  } else {
-    const product = await findOne({
-      model: productModel,
-      filter: { name: req.body.name },
-      select: "name",
-    });
-    if (product) {
-      next(
-        new Error("name is exist product name must be unique", { cause: 409 })
-      );
-    } else {
-      const subCategory = await findOne({
-        model: subCategoryModel,
-        filter: {
-          _id: req.body.subCategoryId,
-          categoryId: req.body.categoryId,
-        },
-      });
-      if (!subCategory) {
-        next(new Error("In-Valid Category or Sub category Id", { cause: 404 }));
-      } else {
-        const brand = await findById({
-          model: brandModel,
-          filter: req.body.brandId,
-        });
-        if (!brand) {
-          next(new Error("In-Valid Brand Id", { cause: 404 }));
-        } else {
-          const images = [];
-          const publicImageIds = [];
-          for (const file of req.files) {
-            const { secure_url, public_id } = await cloudinary.uploader.upload(
-              file.path,
-              {
-                folder: `ECommerce/products/${req.body.name}`,
-              }
-            );
-            images.push(secure_url);
-            publicImageIds.push(public_id);
-          }
-          req.body.images = images;
-          req.body.publicImageIds = publicImageIds;
-          req.body.slug = slugify(req.body.name);
-          req.body.endStock = req.body.startStock;
-          req.body.createdBy = req.authUser._id;
-          if (!req.body.discount) {
-            req.body.finalPrice = req.body.price;
-          } else {
-            if (req.body.price <= req.body.discount) {
-              req.body.finalPrice = 1;
-            } else {
-              req.body.finalPrice = Math.abs(
-                req.body.price - req.body.discount
-              );
-            }
-          }
-          const newProduct = await create({
-            model: productModel,
-            data: req.body,
-          });
-          if (!newProduct) {
-            for (const publicImageId of req.body.publicImageIds) {
-              await cloudinary.uploader.destroy(publicImageId);
-            }
-            next(new Error("fail to add product", { cause: 400 }));
-          } else {
-            res.status(201).json({ message: "Done" });
-          }
-        }
+    return next(
+      new Error("images is required please upload it", { cause: 400 })
+    );
+  }
+  const product = await findOne({
+    model: productModel,
+    filter: { name: req.body.name },
+    select: "name",
+  });
+  if (product) {
+    return next(
+      new Error("name is exist product name must be unique", { cause: 409 })
+    );
+  }
+  const subCategory = await findOne({
+    model: subCategoryModel,
+    filter: {
+      _id: req.body.subCategoryId,
+      categoryId: req.body.categoryId,
+    },
+  });
+  if (!subCategory) {
+    return next(
+      new Error("In-Valid Category or Sub category Id", { cause: 404 })
+    );
+  }
+  const brand = await findById({
+    model: brandModel,
+    filter: req.body.brandId,
+  });
+  if (!brand) {
+    return next(new Error("In-Valid Brand Id", { cause: 404 }));
+  }
+  req.body.slug = slugify(req.body.name);
+  req.body.stock = req.body.amount;
+  req.body.createdBy = req.authUser._id;
+  !discount
+    ? (req.body.finalPrice = price)
+    : (req.body.finalPrice = price - ((price * discount) / 100));
+  const images = [];
+  const publicImageIds = [];
+  for (const file of req.files) {
+    const { secure_url, public_id } = await cloudinary.uploader.upload(
+      file.path,
+      {
+        folder: `ECommerce/products/${req.body.name}`,
       }
+    );
+    images.push(secure_url);
+    publicImageIds.push(public_id);
+  }
+  req.body.images = images;
+  req.body.publicImageIds = publicImageIds;
+  const newProduct = await create({
+    model: productModel,
+    data: req.body,
+  });
+  if (!newProduct) {
+    if (req.body.publicImageIds) {
+      await cloudinary.api.delete_resources(req.body.publicImageIds);
     }
+    return next(new Error("fail to add product", { cause: 400 }));
+  } else {
+    return res.status(201).json({ message: "Done" });
   }
 });
 export const updateProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
+  const {price, discount, categoryId, subCategoryId, brandId, name, publicImageIds} = req.body
   const product = await findById({ model: productModel, filter: id });
   if (!product) {
-    next(new Error("In-Valid Product Id", { cause: 404 }));
-  } else {
+    return next(new Error("In-Valid Product Id", { cause: 404 }));
+  }
+  if (name) {
     const newProduct = await findOne({
       model: productModel,
-      filter: { name: req.body.name },
+      filter: { name: name, _id: { $nin: product._id } },
       select: "name",
     });
-    if (req.body.name !== product.name && newProduct) {
-      next(
-        new Error("name is exist product name must be unique", { cause: 409 })
+    if (newProduct) {
+      return next(
+        new Error("name is exist, product name must be unique", { cause: 409 })
       );
-    } else {
-      if (req.body?.publicImageIds) {
-        const destroy = [];
-        for (const publicImageId of req.body.publicImageIds) {
-          if (product.publicImageIds.includes(publicImageId)) {
-            const { result } = await cloudinary.uploader.destroy(publicImageId);
-            destroy.push(result);
-          }
-        }
-        if (destroy.includes("not found")) {
-          req.body.publicImageIds = product.publicImageIds;
-        } else {
-          req.body.publicImageIds = [];
-          req.body.images = [];
-        }
-      }
-      if (req.files?.length) {
-        const images = [];
-        const publicImageIds = [];
-        for (const file of req.files) {
-          const { secure_url, public_id } = await cloudinary.uploader.upload(
-            file.path,
-            {
-              folder: `ECommerce/products/${req.body.name || product.name}`,
-            }
-          );
-          images.push(secure_url);
-          publicImageIds.push(public_id);
-        }
-        req.body.images = images;
-        req.body.publicImageIds = publicImageIds;
-      }
-      if (req.body?.name) {
-        req.body.slug = slugify(req.body.name);
-      }
-      if (req.body.price) {
-        if (!req.body.discount) {
-          if (req.body.price <= product.discount) {
-            req.body.finalPrice = 1;
-          } else {
-            req.body.finalPrice = Math.abs(req.body.price - product.discount);
-          }
-        } else {
-          if (req.body.price <= req.body.discount) {
-            req.body.finalPrice = 1;
-          } else {
-            req.body.finalPrice = Math.abs(req.body.price - req.body.discount);
-          }
-        }
-      } else {
-        if (req.body?.discount) {
-          if (product.price <= req.body.discount) {
-            req.body.finalPrice = 1;
-          } else {
-            req.body.finalPrice = Math.abs(product.price - req.body.discount);
-          }
-        }
-      }
-      if (req.body?.startStock) {
-        if (req.body.startStock <= product.soldCount) {
-          req.body.endStock = 0;
-        } else {
-          req.body.endStock = Math.abs(req.body.startStock - product.soldCount);
-        }
-      }
-      req.body.updatedBy = req.authUser._id;
-
-      const updateProduct = await findByIdAndUpdate({
-        model: productModel,
-        filter: id,
-        data: req.body,
-      });
-      if (!updateProduct) {
-        next(new Error("fail to update product", { cause: 400 }));
-      } else {
-        if (req.body?.publicImageIds) {
-          for (const publicImageId of updateProduct.publicImageIds) {
-            await cloudinary.uploader.destroy(publicImageId);
-          }
-          res.status(200).json({ message: "Done", updateProduct });
-        } else {
-          res.status(200).json({ message: "Done", updateProduct });
-        }
-      }
     }
+    req.body.slug = slugify(name);
+  }
+  if (publicImageIds) {
+    await cloudinary.api.delete_resources(publicImageIds)
+  }
+  if (price && discount) {
+    req.body.finalPrice = price - ((price * discount) / 100)
+  } else if (price) {
+    req.body.finalPrice = price - ((price * product.discount) / 100)
+  } else if (discount) {
+    req.body.finalPrice = product.price - ((product.price * discount) / 100)
+  }
+  if (req.body?.amount) {
+    const calcStock = req.body.amount - product.soldCount
+    calcStock >= 0 ? req.body.stock = calcStock : req.body.stock = 0
+  }
+  if (categoryId && subCategoryId) {
+    const subCategory = await findOne({
+      model: subCategoryModel,
+      filter: {
+        _id: subCategoryId,
+        categoryId: categoryId,
+      },
+    });
+    if (!subCategory) {
+      return next(
+        new Error("In-Valid Category or Sub category Id", { cause: 404 })
+      );
+    }
+  }
+  if (brandId) {
+    const brand = await findById({
+      model: brandModel,
+      filter: req.body.brandId,
+    });
+    if (!brand) {
+      return next(new Error("In-Valid Brand Id", { cause: 404 }));
+    }
+  }
+  req.body.updatedBy = req.authUser._id;
+  if (req.files?.length) {
+    const images = [];
+    const publicImageIds = [];
+    for (const file of req.files) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        file.path,
+        {
+          folder: `ECommerce/products/${name || product.name}`,
+        }
+      );
+      images.push(secure_url);
+      publicImageIds.push(public_id);
+    }
+    req.body.images = images;
+    req.body.publicImageIds = publicImageIds;
+  }
+  const updateProduct = await findByIdAndUpdate({
+    model: productModel,
+    filter: id,
+    data: req.body,
+  });
+  if (!updateProduct) {
+    if (req.body?.publicImageIds) {
+      await cloudinary.api.delete_resources(req.body.publicImageIds);
+    }
+    return next(new Error("fail to update product", { cause: 400 }));
+  } else {
+    if (req.body?.publicImageIds) {
+      await cloudinary.api.delete_resources(updateProduct.publicImageIds);
+    }
+      return res.status(200).json({ message: "Done", updateProduct });
   }
 });
 export const getProduct = asyncHandler(async (req, res, next) => {
@@ -199,7 +181,16 @@ export const getProduct = asyncHandler(async (req, res, next) => {
     populate: [
       {
         path: "categoryId",
-        select: "-subCategoryId",
+        populate: [
+          {
+            path: "createdBy",
+            select: "userName email",
+          },
+          {
+            path: "updatedBy",
+            select: "userName email",
+          },
+        ],
       },
       {
         path: "subCategoryId",
@@ -238,6 +229,7 @@ export const getProduct = asyncHandler(async (req, res, next) => {
       },
     ],
   });
+  product.nickname = 'mostafa'
   product
     ? res.status(200).json({ message: "Done", product })
     : next(new Error("In-Valid product id", { cause: 404 }));
@@ -249,7 +241,16 @@ export const getProducts = asyncHandler(async (req, res, next) => {
     populate: [
       {
         path: "categoryId",
-        select: "-subCategoryId",
+        populate: [
+          {
+            path: "createdBy",
+            select: "userName email",
+          },
+          {
+            path: "updatedBy",
+            select: "userName email",
+          },
+        ],
       },
       {
         path: "subCategoryId",

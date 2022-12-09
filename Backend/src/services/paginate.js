@@ -1,8 +1,8 @@
-const paginate = (page, size) => {
-  if (!page || page <= 0) {
+const paginate = ({page = 1, size = 3}={}) => {
+  if (page <= 0) {
     page = 1;
   }
-  if (!size || size <= 0) {
+  if (size <= 0) {
     size = 3;
   }
   const skip = (page - 1) * size;
