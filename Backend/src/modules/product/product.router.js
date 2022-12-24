@@ -6,10 +6,12 @@ import validation from './../../middleware/validation.js';
 import * as validators from './product.validation.js';
 import endPoints from "./product.endPoint.js";
 import wishlistRouter from '../wishlist/wishlist.router.js'
+import reviewsRouter from '../reviews/reviews.router.js';
 
 const router = Router()
 // routing
 router.use('/:productId/wishlist', wishlistRouter)
+router.use('/:productId/review', reviewsRouter)
 // add product
 router.post('/', myMulter(validationTypes.image).array('image'),validation(validators.addProduct), auth(endPoints.addProduct), productController.addProduct)
 // update product by id

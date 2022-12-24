@@ -7,7 +7,7 @@ const reviewSchema = new Schema(
       ref: "User",
       required: [true, "can not add review without owner"],
     },
-    text: {
+    message: {
       type: String,
       required: [true, "text is required"],
     },

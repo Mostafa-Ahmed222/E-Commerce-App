@@ -2,14 +2,21 @@ import { Router } from "express";
 import { auth } from "../../middleware/auth.js";
 import * as reviewController  from './controller/reviews.js';
 import endPoints from './reviews.endPoint.js';
-const router = Router()
+import validation from './../../middleware/validation.js';
+import * as validators from './reviews.validation.js';
+
+const router = Router({mergeParams: true})
 
 
 
+//addReview
+router.post('/', validation(validators.addReview),auth(endPoints.add),reviewController.addReview)
 
-router.post('/', auth(endPoints.add),reviewController.addReview)
-router.put('/:id', auth(endPoints.update),reviewController.updateReview)
+// updateReview
+router.put('/:id', validation(validators.updateReview),auth(endPoints.update),reviewController.updateReview)
 
+// deleteReview
+router.delete('/:id', validation(validators.deleteReview),auth(endPoints.delete),reviewController.deleteReview)
 
 
 

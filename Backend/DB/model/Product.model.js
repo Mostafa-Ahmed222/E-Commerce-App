@@ -76,27 +76,19 @@ const productSchema = new Schema(
       ref: 'Brand',
       required: [true, "can not add product without Brand"]
   },
-  ratings : [{
-    userId : {
-      type: Types.ObjectId, 
-      ref: 'Category',
-    },
-    rating: {
-      type: Number,
-      min: [1,'minimum rate is 1'],
-      max: [5,'maximum rate is 5'],
-    } 
-  }],
-  avgRate: {
-    type: Number,
-    default: 0
-  },
     createdBy: { type: Types.ObjectId, ref: 'User', required: [true, "can not add product without owner"] },
     updatedBy: { type: Types.ObjectId, ref: 'User'} },
   {
     timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
   }
 );
+productSchema.virtual('reviews', {
+  localField: '_id',
+  ref: 'Review',
+  foreignField: 'productId'
+})
 
 const productModel = model("Product", productSchema);
 export default productModel;

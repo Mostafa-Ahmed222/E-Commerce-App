@@ -20,12 +20,17 @@ export const appRouter = (app) => {
   const baseUrl = process.env.baseUrl;
   // convert buffer data
   app.use(express.json());
+  app.use(express.urlencoded({extended: false}))
+  //cors
   app.use(cors());
   // setup morgans mode
   if (process.env.MOOD === "DEV") {
     app.use(morgan("dev"));
   }
   // setup api routing
+  app.get('/', (req, res)=>{
+    res.send('<h1>Home Page</h1>')
+  })
   app.use(`${baseUrl}/auth`, authRouter);
   app.use(`${baseUrl}/user`, fires(), userRouter);
   app.use(`${baseUrl}/category`, fires(), categoryRouter);
@@ -35,7 +40,7 @@ export const appRouter = (app) => {
   app.use(`${baseUrl}/coupon`, fires(), couponRouter)
   app.use(`${baseUrl}/cart`, fires(), cartRouter)
   app.use(`${baseUrl}/order`, fires(), orderRouter)
-  app.use(`${baseUrl}/reviews`, fires(), reviewsRouter)
+  app.use(`${baseUrl}/review`, fires(), reviewsRouter)
 
   app.use("*", (req, res) => {
     res.status(404).send("In-valid Routing");

@@ -175,7 +175,7 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
 });
 export const getProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const product = await findById({
+  const result = await findById({
     model: productModel,
     filter: id,
     populate: [
@@ -220,6 +220,9 @@ export const getProduct = asyncHandler(async (req, res, next) => {
         ],
       },
       {
+        path: 'reviews'
+      },
+      {
         path: "createdBy",
         select: "userName email",
       },
@@ -229,14 +232,22 @@ export const getProduct = asyncHandler(async (req, res, next) => {
       },
     ],
   });
-  product.nickname = 'mostafa'
-  product
-    ? res.status(200).json({ message: "Done", product })
-    : next(new Error("In-Valid product id", { cause: 404 }));
+  if (!result) {
+    return next(new Error("In-Valid product id", { cause: 404 }));
+  }
+  const product = result.toObject()
+  if (result.reviews.length) {
+    let avgRate = 0
+    for (const review of result.reviews) {
+      avgRate += review.rating;
+    }
+    product.avgRate = +(avgRate/result.reviews.length).toFixed(2)  
+  }
+  return res.status(200).json({ message: "Done", product })
 });
 export const getProducts = asyncHandler(async (req, res, next) => {
   const { skip, limit } = paginate(req.query.page, req.query.size);
-  const products = await find({
+  const result = await find({
     model: productModel,
     populate: [
       {
@@ -280,6 +291,9 @@ export const getProducts = asyncHandler(async (req, res, next) => {
         ],
       },
       {
+        path: 'reviews'
+      },
+      {
         path: "createdBy",
         select: "userName email",
       },
@@ -291,7 +305,20 @@ export const getProducts = asyncHandler(async (req, res, next) => {
     limit,
     skip,
   });
-  products.length
-    ? res.status(200).json({ message: "Done", products })
-    : next(new Error("Categories Not found", { cause: 404 }));
+  if (!result.length) {
+    return next(new Error("products Not found", { cause: 404 }));
+  }
+  const products = []
+  for (const product of result) {
+    const convProduct = product.toObject()
+    if (product.reviews.length) {
+      let avgRate = 0
+      for (const review of product.reviews) {
+        avgRate += review.rating;
+      }
+      convProduct.avgRate = +(avgRate/product.reviews.length).toFixed(2)
+    }
+    products.push(convProduct)
+  }
+  return res.status(200).json({ message: "Done", products })
 });
