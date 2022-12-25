@@ -27,14 +27,14 @@ export const signup = asyncHandler(async (req, res, next) => {
       expiresIn: "1h",
     });
     const link = `
-      ${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/confirmEmail/${token}
+      ${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}
       `;
     const reftoken = jwt.sign(
       { id: newUser._id },
       process.env.confirmEmailToken
     );
     const reflink = `
-      ${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/requestEmailToken/${reftoken}
+      ${req.protocol}://${req.headers.host}/auth/requestEmailToken/${reftoken}
       `;
     const message = `
       <a href='${link}'>follow link to confirm your email</a>
@@ -88,7 +88,7 @@ export const reConfirmEmail = asyncHandler(async (req, res, next) => {
           { expiresIn: "1h" }
         );
         const link = `
-                  ${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/confirmEmail/${token}
+                  ${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}
                   `;
         const message = `
                   <a href='${link}'>follow link to confirm your email</a>

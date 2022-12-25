@@ -21,6 +21,5 @@ export async function sendEmail(dest, subject, message, attachments= []) {
     html: message, // html body
     attachments,
   });
-  console.log(info);
   return info
 }
