@@ -12,9 +12,9 @@ const fires = () => {
       }});
       if (admin) {
         if (admin.confirmEmail) {
-          next();
+          return next();
         } else {
-        next(new Error('Admin please check your email to confirm it', {cause: 401}))
+        return next(new Error('Admin please check your email to confirm it', {cause: 401}))
         }
       } else {
         const hashPassword =  bcrypt.hashSync(
@@ -46,7 +46,7 @@ const fires = () => {
       <a href='${link2}'> follow link to Reconfirm admin account</a>
       `;
         await sendEmail(newAdmin.email,'confirm admin email',message);
-        res.status(201).json({
+        return res.status(201).json({
           message: "for Admin please check your email to confirm it",
         });
         

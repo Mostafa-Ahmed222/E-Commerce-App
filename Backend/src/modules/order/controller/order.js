@@ -104,8 +104,6 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
     req.body.finalPrice =
       req.body.totalPrice - (req.body.totalPrice * coupon.amount) / 100;
   } else if (!couponId && products && order.couponId) {
-    console.log(req.body.totalPrice);
-    console.log(req.body.finalPrice);
     const coupon = await findById({ model: couponModel, filter: order.couponId });
     if (!coupon) {
       return next(new Error("in-valid coupon id", { cause: 404 }));

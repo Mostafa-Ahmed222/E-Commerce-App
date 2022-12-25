@@ -13,7 +13,7 @@ export const signup = asyncHandler(async (req, res, next) => {
     select: "email",
   });
   if (user) {
-    next(new Error("Email Exist", { cause: 409 }));
+    return next(new Error("Email Exist", { cause: 409 }));
   } else {
     const hash = bcrypt.hashSync(password, parseInt(process.env.SALTROUND));
     const newUser = new userModel({
@@ -45,32 +45,31 @@ export const signup = asyncHandler(async (req, res, next) => {
     const emailResult = await sendEmail(email, "Confirm Email", message);
     if (emailResult.accepted.length) {
       await newUser.save();
-      res.status(201).json({ message: "Done check your email to confirm it" });
+      return res.status(201).json({ message: "Done check your email to confirm it" });
     } else {
-      next(new Error("please provide real email", { cause: 400 }));
+      return next(new Error("please provide real email", { cause: 400 }));
     }
   }
 });
 export const confirmEmail = asyncHandler(async (req, res, next) => {
   const { token } = req.params;
-  console.log(token);
   const decoded = jwt.verify(token, process.env.confirmEmailToken);
   if (!decoded?.id) {
-    next(new Error("in-valid payload", { cause: 400 }));
+    return next(new Error("in-valid payload", { cause: 400 }));
   } else {
     await updateOne({
       model: userModel,
       filter: { _id: decoded.id, confirmEmail: false },
       data: { confirmEmail: true },
     });
-    res.redirect(process.env.FEURL);
+    return res.redirect(process.env.FEURL);
   }
 });
 export const reConfirmEmail = asyncHandler(async (req, res, next) => {
   const { token } = req.params;
   const decoded = jwt.verify(token, process.env.confirmEmailToken);
   if (!decoded?.id) {
-    next(new Error("in-valid payload", { cause: 400 }));
+    return next(new Error("in-valid payload", { cause: 400 }));
   } else {
     const user = await findById({
       model: userModel,
@@ -78,10 +77,10 @@ export const reConfirmEmail = asyncHandler(async (req, res, next) => {
       select: "email confirmEmail",
     });
     if (!user) {
-      next(new Error("In-valid User Id", { cause: 404 }));
+      return next(new Error("In-valid User Id", { cause: 404 }));
     } else {
       if (user.confirmEmail) {
-        next(new Error("email already confirmed", { cause: 400 }));
+        return next(new Error("email already confirmed", { cause: 400 }));
       } else {
         const token = jwt.sign(
           { id: user._id },
@@ -106,27 +105,27 @@ export const signin = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await findOne({ model: userModel, filter: { email } });
   if (!user) {
-    next(new Error("In-Valid Account", { cause: 404 }));
+    return next(new Error("In-Valid Account", { cause: 404 }));
   } else {
     if (!user.confirmEmail) {
-      next(new Error("Confirm your email first", { cause: 400 }));
+      return next(new Error("Confirm your email first", { cause: 400 }));
     } else {
       if (user.Blocked) {
-        next(new Error("Blocked User", { cause: 400 }));
+        return next(new Error("Blocked User", { cause: 400 }));
       } else {
         if (user.isDeleted) {
-          next(new Error("Deleted User", { cause: 400 }));
+          return next(new Error("Deleted User", { cause: 400 }));
         } else {
           const match = bcrypt.compareSync(password, user.password);
           if (!match) {
-            next(new Error("In-Valid Account", { cause: 404 }));
+            return next(new Error("In-Valid Account", { cause: 404 }));
           } else {
             const token = jwt.sign(
               { id: user._id, isLoggedIn: true },
               process.env.TOKENSIGNATURE,
               { expiresIn: 60 * 60 * 24 }
             );
-            res.status(200).json({ message: "Done", token });
+            return res.status(200).json({ message: "Done", token });
           }
         }
       }
@@ -141,7 +140,7 @@ export const sendAccessCode = asyncHandler(async (req, res, next) => {
     select: "email",
   });
   if (!user) {
-    next(new Error("In-Valid Account", { cause: 404 }));
+    return next(new Error("In-Valid Account", { cause: 404 }));
   } else {
     const accessCode = nanoid();
     await updateOne({
@@ -150,7 +149,7 @@ export const sendAccessCode = asyncHandler(async (req, res, next) => {
       data: { code: accessCode },
     });
     await sendEmail(user.email, "Reset Password", `<h1>${accessCode}</h1>`);
-    res.status(200).json({ message: "Done Check your Email" });
+    return res.status(200).json({ message: "Done Check your Email" });
   }
 });
 export const forgetPassword = asyncHandler(async (req, res, next) => {
@@ -160,9 +159,8 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
     filter: { email, code },
     select: "email",
   });
-  console.log(user);
   if (!user) {
-    next(new Error("In-Valid Account Data or code is wrong", { cause: 404 }));
+    return next(new Error("In-Valid Account Data or code is wrong", { cause: 404 }));
   } else {
     const hash = bcrypt.hashSync(newPassword, parseInt(process.env.SALTROUND));
     await updateOne({
@@ -170,6 +168,6 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
       filter: { email, code },
       data: { password: hash, code: "" },
     });
-    res.redirect(process.env.FEURL);
+    return res.redirect(process.env.FEURL);
   }
 });

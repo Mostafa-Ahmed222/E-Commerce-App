@@ -7,7 +7,7 @@ import {
   findOneAndUpdate,
   updateOne,
 } from "./../../../../DB/DBMethods.js";
-import reviewModel from "./../../../../DB/Review.model.js";
+import reviewModel from "./../../../../DB/model/Review.model.js";
 import orderModel from './../../../../DB/model/Order.model.js';
 
 export const addReview = asyncHandler(async (req, res, next) => {

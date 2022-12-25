@@ -125,5 +125,5 @@ export const getCart = asyncHandler(async (req, res, next) => {
   if (!cart.length) {
     return next(new Error('cart is empty', {cause: 404}))
   }
-  res.status(200).json({message: 'Done', cart})
+  return res.status(200).json({message: 'Done', cart})
 });

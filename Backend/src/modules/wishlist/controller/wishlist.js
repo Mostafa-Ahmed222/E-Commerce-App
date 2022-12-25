@@ -6,7 +6,6 @@ import asyncHandler from "../../../services/handelError.js";
 export const add = asyncHandler(async (req, res, next) => {
   const { productId } = req.params;
   const product = await findById({ model: productModel, filter: productId });
-  console.log(product);
   if (!product) {
     return next(new Error("in-valid product Id", { cause: 404 }));
   }

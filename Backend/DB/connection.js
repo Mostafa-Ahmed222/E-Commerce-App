@@ -8,4 +8,5 @@ const connectDB = async()=>{
         console.log(`connectDB on ${process.env.DBURL} ${err}`)
     })
 }
+mongoose.set('strictQuery', false);
 export default connectDB

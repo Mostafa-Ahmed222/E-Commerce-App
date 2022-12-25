@@ -9,7 +9,7 @@ dotenv.config({path: path.join(__dirname, './config/.env')})
 
 const app = express()
 // setup with Port
-const port = process.env.PORT || 5000
+const port = process.env.PORT
 // setup baseurl, convertBufferData, morgan, ApiRouting , Handeling error and connect with server and DB
 
 appRouter(app)

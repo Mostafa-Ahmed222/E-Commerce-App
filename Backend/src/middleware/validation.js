@@ -14,12 +14,12 @@ const validation = (Schema) => {
         }
       });
       if (validationArr.length) {
-        res.json({ message: "Validation error", validationArr });
+        return res.json({ message: "Validation error", validationArr });
       } else {
-        next();
+        return next();
       }
     } catch (error) {
-      res
+      return res
         .status(500)
         .json({
           message: "catch error",

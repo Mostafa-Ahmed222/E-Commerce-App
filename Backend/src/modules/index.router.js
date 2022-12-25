@@ -17,7 +17,7 @@ import reviewsRouter from './reviews/reviews.router.js';
 
 export const appRouter = (app) => {
   // setup with baseUrl
-  const baseUrl = process.env.baseUrl;
+  // const baseUrl = process.env.baseUrl;
   // convert buffer data
   app.use(express.json());
   app.use(express.urlencoded({extended: false}))
@@ -31,16 +31,16 @@ export const appRouter = (app) => {
   app.get('/', (req, res)=>{
     res.send('<h1>Home Page</h1>')
   })
-  app.use(`${baseUrl}/auth`, authRouter);
-  app.use(`${baseUrl}/user`, fires(), userRouter);
-  app.use(`${baseUrl}/category`, fires(), categoryRouter);
-  app.use(`${baseUrl}/subCategory`, fires(), subcategoryRouter);
-  app.use(`${baseUrl}/brand`, fires(), brandRouter);
-  app.use(`${baseUrl}/product`, fires(), productRouter);
-  app.use(`${baseUrl}/coupon`, fires(), couponRouter)
-  app.use(`${baseUrl}/cart`, fires(), cartRouter)
-  app.use(`${baseUrl}/order`, fires(), orderRouter)
-  app.use(`${baseUrl}/review`, fires(), reviewsRouter)
+  app.use(`/auth`, authRouter);
+  app.use(`/user`, fires(), userRouter);
+  app.use(`/category`, fires(), categoryRouter);
+  app.use(`/subCategory`, fires(), subcategoryRouter);
+  app.use(`/brand`, fires(), brandRouter);
+  app.use(`/product`, fires(), productRouter);
+  app.use(`/coupon`, fires(), couponRouter)
+  app.use(`/cart`, fires(), cartRouter)
+  app.use(`/order`, fires(), orderRouter)
+  app.use(`/review`, fires(), reviewsRouter)
 
   app.use("*", (req, res) => {
     res.status(404).send("In-valid Routing");

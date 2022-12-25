@@ -83,4 +83,3 @@ export const findOneAndRemove = async({model, filter={}, select = "", populate =
   const result = await model.findOneAndRemove(filter).select(select).populate(populate)
   return result
 }
-

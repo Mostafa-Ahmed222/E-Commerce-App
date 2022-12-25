@@ -12,7 +12,7 @@ import paginate from "../../../services/paginate.js";
 
 export const addCategory = asyncHandler(async (req, res, next) => {
   if (!req.file) {
-    next(new Error("image is required please upload it", { cause: 400 }));
+    return next(new Error("image is required please upload it", { cause: 400 }));
   } else {
     const { name } = req.body;
     const category = await findOne({
@@ -21,7 +21,7 @@ export const addCategory = asyncHandler(async (req, res, next) => {
       select: "name",
     });
     if (category) {
-      next(new Error("Category Name must be Unique", { cause: 409 }));
+      return next(new Error("Category Name must be Unique", { cause: 409 }));
     } else {
       const { secure_url, public_id } = await cloudinary.uploader.upload(
         req.file.path,
@@ -41,7 +41,7 @@ export const addCategory = asyncHandler(async (req, res, next) => {
       });
       if (!result) {
         await cloudinary.uploader.destroy(public_id);
-        next(new Error("fail to add category", { cause: 400 }));
+        return next(new Error("fail to add category", { cause: 400 }));
       } else {
         res.status(201).json({ message: "Done" });
       }
@@ -80,7 +80,7 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
     req.body.publicImageId
       ? await cloudinary.uploader.destroy(req.body.publicImageId)
       : "";
-    next(new Error("in-valid category id", { cause: 404 }));
+    return next(new Error("in-valid category id", { cause: 404 }));
   }
 });
 export const getCategory = asyncHandler(async (req, res, next) => {
@@ -119,13 +119,13 @@ export const getCategory = asyncHandler(async (req, res, next) => {
           select: "userName email",
         },
       ]);
-    res.status(200).json({ message: "Done", category });
+    return res.status(200).json({ message: "Done", category });
   } else {
-    next(new Error("In-Valid category id", { cause: 404 }));
+    return next(new Error("In-Valid category id", { cause: 404 }));
   }
   // category
   //   ? res.status(200).json({ message: "Done", category })
-  //   : next(new Error("In-Valid category id", { cause: 404 }));
+  //   : return next(new Error("In-Valid category id", { cause: 404 }));
 });
 export const getCategories = asyncHandler(async (req, res, next) => {
   // const { skip, limit } = paginate(req.query.page, req.query.size);
@@ -161,7 +161,8 @@ export const getCategories = asyncHandler(async (req, res, next) => {
       ]);
     categories.push(category);
   }
-  categories.length
-    ? res.status(200).json({ message: "Done", categories })
-    : next(new Error("Categories Not found", { cause: 404 }));
+  if (categories.length) {
+    return res.status(200).json({ message: "Done", categories })
+  }
+  return next(new Error("Categories Not found", { cause: 404 }));
 });

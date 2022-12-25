@@ -14,7 +14,7 @@ import productModel from "./../../../../DB/model/Product.model.js";
 
 export const addBrand = asyncHandler(async (req, res, next) => {
   if (!req.file) {
-    next(new Error("logo is required please upload it", { cause: 400 }));
+    return next(new Error("logo is required please upload it", { cause: 400 }));
   } else {
     const { name } = req.body;
     const brand = await findOne({
@@ -23,7 +23,7 @@ export const addBrand = asyncHandler(async (req, res, next) => {
       select: "name",
     });
     if (brand) {
-      next(new Error("brand Name must be Unique", { cause: 409 }));
+      return next(new Error("brand Name must be Unique", { cause: 409 }));
     } else {
       const { secure_url, public_id } = await cloudinary.uploader.upload(
         req.file.path,
@@ -43,9 +43,9 @@ export const addBrand = asyncHandler(async (req, res, next) => {
       });
       if (!result) {
         await cloudinary.uploader.destroy(public_id);
-        next(new Error("fail to add brand", { cause: 400 }));
+        return next(new Error("fail to add brand", { cause: 400 }));
       } else {
-        res.status(201).json({ message: "Done" });
+        return res.status(201).json({ message: "Done" });
       }
     }
   }
@@ -74,15 +74,15 @@ export const updateBrand = asyncHandler(async (req, res, next) => {
   if (brand) {
     if (req.body?.publicImageId) {
       await cloudinary.uploader.destroy(brand.publicImageId);
-      res.status(200).json({ message: "Done" });
+      return res.status(200).json({ message: "Done" });
     } else {
-      res.status(200).json({ message: "Done" });
+      return res.status(200).json({ message: "Done" });
     }
   } else {
     req.body.publicImageId
       ? await cloudinary.uploader.destroy(req.body.publicImageId)
       : "";
-    next(new Error("in-valid brand id", { cause: 404 }));
+    return next(new Error("in-valid brand id", { cause: 404 }));
   }
 });
 export const getBrand = asyncHandler(async (req, res, next) => {
@@ -98,8 +98,8 @@ export const getBrand = asyncHandler(async (req, res, next) => {
   //   },
   // ]});
   // brand
-  //   ? res.status(200).json({ message: "Done", brand })
-  //   : next(new Error("In-Valid brand id", { cause: 404 }));
+  //   ? return res.status(200).json({ message: "Done", brand })
+  //   : return next(new Error("In-Valid brand id", { cause: 404 }));
   const cursor = brandModel
     .findById(id)
     .populate([
@@ -147,9 +147,9 @@ export const getBrand = asyncHandler(async (req, res, next) => {
           ],
         },
       ]);
-    res.status(200).json({ message: "Done", brand });
+    return res.status(200).json({ message: "Done", brand });
   } else {
-    next(new Error("In-Valid brand id", { cause: 404 }));
+    return next(new Error("In-Valid brand id", { cause: 404 }));
   }
 });
 export const getBrands = asyncHandler(async (req, res, next) => {
@@ -165,8 +165,8 @@ export const getBrands = asyncHandler(async (req, res, next) => {
   //   },
   // ], limit, skip})
   // brands.length
-  //   ? res.status(200).json({ message: "Done", brands })
-  //   : next(new Error("Categories Not found", { cause: 404 }));
+  //   ? return res.status(200).json({ message: "Done", brands })
+  //   : return next(new Error("Categories Not found", { cause: 404 }));
   const cursor = brandModel
     .find({})
     .populate([
@@ -218,7 +218,8 @@ export const getBrands = asyncHandler(async (req, res, next) => {
       ]);
     brands.push(brand);
   }
-  brands.length
-    ? res.status(200).json({ message: "Done", brands })
-    : next(new Error("Brands Not found", { cause: 404 }));
+  if (brands.length) {
+    return res.status(200).json({ message: "Done", brands })
+  }
+  return next(new Error("Brands Not found", { cause: 404 }));
 });

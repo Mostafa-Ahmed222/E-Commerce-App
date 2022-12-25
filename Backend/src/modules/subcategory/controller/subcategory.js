@@ -15,7 +15,7 @@ import productModel from "./../../../../DB/model/Product.model.js";
 export const addSubCategory = asyncHandler(async (req, res, next) => {
   const { categoryId } = req.params;
   if (!req.file) {
-    next(new Error("image is required please upload it", { cause: 404 }));
+    return next(new Error("image is required please upload it", { cause: 404 }));
   } else {
     const { name } = req.body;
     const category = await findById({
@@ -24,7 +24,7 @@ export const addSubCategory = asyncHandler(async (req, res, next) => {
       select: "_id",
     });
     if (!category) {
-      next(new Error("in-valid Category id", { cause: 404 }));
+      return next(new Error("in-valid Category id", { cause: 404 }));
     } else {
       const { secure_url, public_id } = await cloudinary.uploader.upload(
         req.file.path,
@@ -45,9 +45,9 @@ export const addSubCategory = asyncHandler(async (req, res, next) => {
       });
       if (!result) {
         await cloudinary.uploader.destroy(public_id);
-        next(new Error("fail to add subCategory", { cause: 400 }));
+        return next(new Error("fail to add subCategory", { cause: 400 }));
       } else {
-        res.status(201).json({ message: "Done" });
+        return res.status(201).json({ message: "Done" });
       }
     }
   }
@@ -74,13 +74,13 @@ export const updateSubCategory = asyncHandler(async (req, res, next) => {
     data: req.body,
   });
   if (!subCategory) {
-    next(new Error("in-valid SubCategory id"), { cause: 404 });
+    return next(new Error("in-valid SubCategory id"), { cause: 404 });
   } else {
     if (req.body.publicImageId) {
       await cloudinary.uploader.destroy(subCategory.publicImageId);
       res.status(200).json({ message: "Done" });
     } else {
-      res.status(200).json({ message: "Done" });
+      return res.status(200).json({ message: "Done" });
     }
   }
 });
@@ -105,7 +105,7 @@ export const getSubCategory = asyncHandler(async (req, res, next) => {
   // ]});
   // subCategory
   //   ? res.status(200).json({ message: "Done", subCategory })
-  //   : next(new Error("In-Valid SubCategory id", { cause: 404 }));
+  //   : return next(new Error("In-Valid SubCategory id", { cause: 404 }));
   const cursor = subCategoryModel
     .findById(subCategoryId)
     .populate([
@@ -157,9 +157,9 @@ export const getSubCategory = asyncHandler(async (req, res, next) => {
           ],
         },
       ]);
-    res.status(200).json({ message: "Done", subCategory });
+    return res.status(200).json({ message: "Done", subCategory });
   } else {
-    next(new Error("In-Valid sub category id", { cause: 404 }));
+    return next(new Error("In-Valid sub category id", { cause: 404 }));
   }
 });
 export const getSubCategories = asyncHandler(async (req, res, next) => {
@@ -188,7 +188,7 @@ export const getSubCategories = asyncHandler(async (req, res, next) => {
   // });
   // SubCategories.length
   //   ? res.status(200).json({ message: "Done", SubCategories })
-  //   : next(new Error("SubCategories Not found", { cause: 404 }));
+  //   : return next(new Error("SubCategories Not found", { cause: 404 }));
   const cursor = subCategoryModel
     .find({})
     .populate([
@@ -235,7 +235,8 @@ export const getSubCategories = asyncHandler(async (req, res, next) => {
       ]);
     subCategories.push(subCategory);
   }
-  subCategories.length
-    ? res.status(200).json({ message: "Done", subCategories })
-    : next(new Error("subCategories Not found", { cause: 404 }));
+  if (subCategories.length) {
+    return res.status(200).json({ message: "Done", subCategories })
+  }
+  return next(new Error("subCategories Not found", { cause: 404 }));
 });
