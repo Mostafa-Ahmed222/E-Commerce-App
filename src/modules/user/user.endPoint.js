@@ -2,10 +2,10 @@ import { roles } from "../../middleware/auth.js";
 
 
 const endPoints = {
-    updatePassword : [roles.Admin, roles.User],
-    softDelete : [roles.Admin, roles.User],
-    getUser: [roles.Admin],
-    blockUser: [roles.Admin]
+    updatePassword : [ roles.SuperAdmin, roles.Admin, roles.SubAdmin, roles.User],
+    softDelete : [ roles.SuperAdmin, roles.Admin, roles.SubAdmin, roles.User],
+    getUsers: [roles.SuperAdmin, roles.Admin, roles.SubAdmin],
+    getUser: [roles.SuperAdmin, roles.Admin, roles.SubAdmin]
 }
 
 export default endPoints

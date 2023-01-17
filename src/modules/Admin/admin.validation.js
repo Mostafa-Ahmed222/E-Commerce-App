@@ -37,7 +37,7 @@ export const updatePassword = {
     })
     .options({ allowUnknown: true }),
 };
-export const softDelete = {
+export const token = {
   headers: joi
     .object()
     .required()
@@ -46,19 +46,7 @@ export const softDelete = {
     })
     .options({ allowUnknown: true }),
 }
-export const getAllUsers = {
-  query: joi.object().required().keys({
-    page: joi.number().min(1),
-    size: joi.number().min(1),
-    sortedField: joi.string(),
-    orderedBy: joi.number().valid(1, -1)
-  }),
-  headers: joi.object().required().keys({
-    authorization: joi.string().required()
-  }).options({allowUnknown : true})
-}
-
-export const getUserById = {
+export const idAndToken = {
   params : joi.object().required().keys({
     id: joi
         .string()

@@ -17,9 +17,9 @@ router.post('/', myMulter(validationTypes.image).array('image'),validation(valid
 // update product by id
 router.put('/:id', myMulter(validationTypes.image).array('image'),validation(validators.updateProduct), auth(endPoints.updateProduct), productController.updateProduct)
 // get all products
-router.get('/', productController.getProducts)
+router.get('/', validation(validators.getProducts), productController.getProducts)
 // get product by id
-router.get('/:id',productController.getProduct)
+router.get('/:id', validation(validators.getProductById), productController.getProductById)
 
 
 

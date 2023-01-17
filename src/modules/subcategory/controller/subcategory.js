@@ -10,8 +10,9 @@ import paginate from "../../../services/paginate.js";
 import subCategoryModel from "../../../../DB/model/SubCategory.model.js";
 import slugify from "slugify";
 import categoryModel from "../../../../DB/model/Category.model.js";
-import productModel from "./../../../../DB/model/Product.model.js";
+import sorting from "../../../services/sorting.js";
 
+// add subCategory
 export const addSubCategory = asyncHandler(async (req, res, next) => {
   const { categoryId } = req.params;
   if (!req.file) {
@@ -52,6 +53,7 @@ export const addSubCategory = asyncHandler(async (req, res, next) => {
     }
   }
 });
+// update subCategory by id
 export const updateSubCategory = asyncHandler(async (req, res, next) => {
   const { categoryId, subCategoryId } = req.params;
   if (req.file) {
@@ -84,159 +86,148 @@ export const updateSubCategory = asyncHandler(async (req, res, next) => {
     }
   }
 });
-export const getSubCategory = asyncHandler(async (req, res, next) => {
+// get subCategory by id
+export const getSubCategoryById = asyncHandler(async (req, res, next) => {
   const { subCategoryId } = req.params;
-  // const subCategory = await findById({model: subCategoryModel,filter: subCategoryId, populate: [
-  //   {
-  //     path: "categoryId",
-  //     populate: [{
-  //       path: "createdBy",
-  //       select: "userName email",
-  //     }],
-  //   },
-  //   {
-  //     path: "createdBy",
-  //     select: "userName email",
-  //   },
-  //   {
-  //     path: "updatedBy",
-  //     select: "userName email",
-  //   },
-  // ]});
-  // subCategory
-  //   ? res.status(200).json({ message: "Done", subCategory })
-  //   : return next(new Error("In-Valid SubCategory id", { cause: 404 }));
-  const cursor = subCategoryModel
-    .findById(subCategoryId)
-    .populate([
+  const result = await findById({model: subCategoryModel,filter: subCategoryId, populate: [
+    {
+      path: "categoryId",
+      populate: [{
+        path: "createdBy",
+        select: "userName email",
+      }],
+    },
+    {
+      path: "createdBy",
+      select: "userName email",
+    },
+    {
+      path: "updatedBy",
+      select: "userName email",
+    },
+    {
+      path: "products",
+      populate: [
+        {
+          path: "brandId",
+          populate: [
+            {
+              path: "createdBy",
+              select: "userName email",
+            },
+            {
+              path: "updatedBy",
+              select: "userName email",
+            },
+          ],
+        },
+        {
+          path: 'reviews'
+        },
+        {
+          path: "createdBy",
+          select: "userName email",
+        },
+        {
+          path: "updatedBy",
+          select: "userName email",
+        },
+      ]
+    },
+  ]});
+  if (!result) {
+    return next(new Error("In-Valid SubCategory id", { cause: 404 }));
+  }
+  const subCategory = result.toObject()
+  if (subCategory.products.length) {
+    for (const product of subCategory.products) {
+      if (product.reviews.length) {
+        let avgRate = 0
+        for (const review of product.reviews) {
+          avgRate += review.rating;
+        }
+        product.avgRate = +(avgRate/product.reviews.length).toFixed(2)
+      }
+    }
+  }
+  res.status(200).json({ message: "Done", subCategory }) 
+
+});
+// get all subCategories
+export const getSubCategories = asyncHandler(async (req, res, next) => {
+  const {page, size, sortedField, orderedBy} = req.query
+  const { skip, limit } = paginate({page, size});
+  const sort= sorting({orderedBy, sortedField})
+  const result = await find({
+    model: subCategoryModel,
+    populate: [
       {
         path: "categoryId",
+        populate: [{
+          path: "createdBy",
+          select: "userName email",
+        }],
+      },
+      {
+        path: "createdBy",
+        select: "userName email",
+      },
+      {
+        path: "updatedBy",
+        select: "userName email",
+      },
+      {
+        path: "products",
         populate: [
+          {
+            path: "brandId",
+            populate: [
+              {
+                path: "createdBy",
+                select: "userName email",
+              },
+              {
+                path: "updatedBy",
+                select: "userName email",
+              },
+            ],
+          },
+          {
+            path: 'reviews'
+          },
           {
             path: "createdBy",
             select: "userName email",
           },
-        ],
+          {
+            path: "updatedBy",
+            select: "userName email",
+          },
+        ]
       },
-      {
-        path: "createdBy",
-        select: "userName email",
-      },
-      {
-        path: "updatedBy",
-        select: "userName email",
-      },
-    ])
-    .cursor();
-  const subCategoryCursor = await cursor.next();
-  if (subCategoryCursor != null) {
-    const subCategory = subCategoryCursor.toObject();
-    subCategory.products = await productModel
-      .find({ subCategoryId: subCategoryId })
-      .select("-subCategoryId -categoryId")
-      .populate([
-        {
-          path: "createdBy",
-          select: "userName email",
-        },
-        {
-          path: "updatedBy",
-          select: "userName email",
-        },
-        {
-          path: "brandId",
-          populate: [
-            {
-              path: "createdBy",
-              select: "userName email",
-            },
-            {
-              path: "updatedBy",
-              select: "userName email",
-            },
-          ],
-        },
-      ]);
-    return res.status(200).json({ message: "Done", subCategory });
-  } else {
-    return next(new Error("In-Valid sub category id", { cause: 404 }));
+    ],
+    skip,
+    limit,
+    sort
+  });
+  if (!result.length) {
+    return next(new Error("SubCategories Not found", { cause: 404 }));
   }
-});
-export const getSubCategories = asyncHandler(async (req, res, next) => {
-  const { skip, limit } = paginate(req.query.page, req.query.size);
-  // const SubCategories = await find({
-  //   model: subCategoryModel,
-  //   populate: [
-  //     {
-  //       path: "categoryId",
-  //       populate: [{
-  //         path: "createdBy",
-  //         select: "userName email",
-  //       }],
-  //     },
-  //     {
-  //       path: "createdBy",
-  //       select: "userName email",
-  //     },
-  //     {
-  //       path: "updatedBy",
-  //       select: "userName email",
-  //     },
-  //   ],
-  //   skip,
-  //   limit
-  // });
-  // SubCategories.length
-  //   ? res.status(200).json({ message: "Done", SubCategories })
-  //   : return next(new Error("SubCategories Not found", { cause: 404 }));
-  const cursor = subCategoryModel
-    .find({})
-    .populate([
-      {
-        path: "createdBy",
-        select: "userName email",
-      },
-      {
-        path: "updatedBy",
-        select: "userName email",
-      },
-    ])
-    .limit(limit)
-    .skip(skip)
-    .cursor();
-  const subCategories = [];
-  for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
-    const subCategory = doc.toObject();
-    subCategory.products = await productModel
-      .find({ subCategoryId: doc._id })
-      .select("-subCategoryId -categoryId")
-      .populate([
-        {
-          path: "createdBy",
-          select: "userName email",
-        },
-        {
-          path: "updatedBy",
-          select: "userName email",
-        },
-        {
-          path: "brandId",
-          populate: [
-            {
-              path: "createdBy",
-              select: "userName email",
-            },
-            {
-              path: "updatedBy",
-              select: "userName email",
-            },
-          ],
-        },
-      ]);
-    subCategories.push(subCategory);
+  const SubCategories = []
+  for (const SubCategory of result) {
+    const convSubCategory = SubCategory.toObject()
+    if (convSubCategory.products.length) {
+      for (const product of convSubCategory.products) {
+        if (product.reviews.length) {
+          let avgRate = 0
+          for (const review of product.reviews) {
+            avgRate += review.rating;
+          }
+          product.avgRate = +(avgRate/product.reviews.length).toFixed(2)
+        }
+      }
+    }
+    SubCategories.push(convSubCategory)
   }
-  if (subCategories.length) {
-    return res.status(200).json({ message: "Done", subCategories })
-  }
-  return next(new Error("subCategories Not found", { cause: 404 }));
+  res.status(200).json({ message: "Done", SubCategories })
 });

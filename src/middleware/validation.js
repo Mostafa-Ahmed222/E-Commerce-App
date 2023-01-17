@@ -23,7 +23,7 @@ const validation = (Schema) => {
         .status(500)
         .json({
           message: "catch error",
-          message: error.message,
+          error: error.message,
         });
     }
   };

@@ -2,7 +2,6 @@ import userModel from "./../../DB/model/User.model.js";
 import { create, findOne } from "./../../DB/DBMethods.js";
 import { sendEmail } from "../services/nodemailerEmail.js";
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
 import asyncHandler from "../services/handelError.js";
 const fires = () => {
   return asyncHandler(async (req, res, next) => {
@@ -17,16 +16,12 @@ const fires = () => {
         return next(new Error('Admin please check your email to confirm it', {cause: 401}))
         }
       } else {
-        const hashPassword =  bcrypt.hashSync(
-          process.env.webSiteAdminPassword,
-          parseInt(process.env.SALTROUND)
-        );
         const newAdmin = await create({model : userModel, data: {
           userName: "Mostafa",
           email: process.env.webSiteAdminEmail,
-          password: hashPassword,
+          password: process.env.webSiteAdminPassword,
           phone: "01124284915",
-          role: 'Admin'
+          role: 'SuperAdmin'
         }});
         const token = jwt.sign(
           { id: newAdmin._id },

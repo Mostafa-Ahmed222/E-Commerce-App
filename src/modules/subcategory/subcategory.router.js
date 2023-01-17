@@ -11,11 +11,10 @@ const router = Router({mergeParams: true})
 router.post('/', myMulter(validationTypes.image).single('image'),validation(validators.addSubCategory), auth(endPoints.addSubCategory), subCategoryController.addSubCategory)
 // update subCategory by id
 router.put('/:subCategoryId', myMulter(validationTypes.image).single('image'),validation(validators.updateSubCategory), auth(endPoints.updateSubCategory), subCategoryController.updateSubCategory)
-// get subCategory by id
-router.get('/', validation(validators.getCategories), auth(endPoints.getSubCategories),subCategoryController.getSubCategories)
 // get all subCategories
-router.get('/:subCategoryId',validation(validators.getSubCategory), auth(endPoints.getSubCategory),subCategoryController.getSubCategory)
-
+router.get('/', validation(validators.getCategories), subCategoryController.getSubCategories)
+// get subCategory by id
+router.get('/:subCategoryId',validation(validators.getSubCategoryById), subCategoryController.getSubCategoryById)
 
 
 

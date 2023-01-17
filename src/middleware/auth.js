@@ -3,8 +3,10 @@ import userModel from "./../../DB/model/User.model.js";
 import { findById } from "./../../DB/DBMethods.js";
 import asyncHandler from './../services/handelError.js';
 export const roles = {
-  Admin: "Admin",
   User: "User",
+  SubAdmin: "SubAdmin",
+  Admin: "Admin",
+  SuperAdmin: "SuperAdmin"
 };
 export const auth = (accessRoles = [roles.User]) => {
   return asyncHandler(async (req, res, next) => {

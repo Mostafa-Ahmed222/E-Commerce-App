@@ -31,8 +31,16 @@ const brandSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
   }
 );
+
+brandSchema.virtual("products", {
+  localField: "_id",
+  ref: "Product",
+  foreignField: "brandId"
+})
 
 const brandModel = model("Brand", brandSchema);
 export default brandModel;

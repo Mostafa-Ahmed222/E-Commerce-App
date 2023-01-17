@@ -30,8 +30,14 @@ const categorySchema = new Schema(
     updatedBy: { type: Types.ObjectId, ref: 'User'} },
   {
     timestamps: true,
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
   }
 );
-
+categorySchema.virtual("subCategories", {
+  localField: "_id",
+  ref: "SubCategory",
+  foreignField: "categoryId"
+})
 const categoryModel = model("Category", categorySchema);
 export default categoryModel;

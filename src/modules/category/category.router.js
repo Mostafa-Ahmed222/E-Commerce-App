@@ -15,9 +15,9 @@ router.post('/', myMulter(validationTypes.image).single('image'),validation(vali
 // update category by id
 router.put('/:id', myMulter(validationTypes.image).single('image'),validation(validators.updateCategory), auth(endPoints.updateCategory), categoryController.updateCategory)
 // get all categories
-router.get('/', validation(validators.getCategories), auth(endPoints.getCategory),categoryController.getCategories)
+router.get('/', validation(validators.getCategories),categoryController.getCategories)
 // get category by id
-router.get('/:id',validation(validators.getCategory), auth(endPoints.getCategories),categoryController.getCategory)
+router.get('/:id',validation(validators.getCategoryById), categoryController.getCategoryById)
 
 
 

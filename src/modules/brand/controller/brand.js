@@ -11,7 +11,9 @@ import {
 } from "./../../../../DB/DBMethods.js";
 import paginate from "../../../services/paginate.js";
 import productModel from "./../../../../DB/model/Product.model.js";
+import sorting from "../../../services/sorting.js";
 
+// add brand
 export const addBrand = asyncHandler(async (req, res, next) => {
   if (!req.file) {
     return next(new Error("logo is required please upload it", { cause: 400 }));
@@ -50,6 +52,7 @@ export const addBrand = asyncHandler(async (req, res, next) => {
     }
   }
 });
+// update brand by id
 export const updateBrand = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   if (req.file) {
@@ -85,52 +88,33 @@ export const updateBrand = asyncHandler(async (req, res, next) => {
     return next(new Error("in-valid brand id", { cause: 404 }));
   }
 });
-export const getBrand = asyncHandler(async (req, res, next) => {
+// get brand by id
+export const getBrandById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  // const brand = await findById({model: brandModel,filter: id,populate: [
-  //   {
-  //     path: "createdBy",
-  //     select: "userName email",
-  //   },
-  //   {
-  //     path: "updatedBy",
-  //     select: "userName email",
-  //   },
-  // ]});
-  // brand
-  //   ? return res.status(200).json({ message: "Done", brand })
-  //   : return next(new Error("In-Valid brand id", { cause: 404 }));
-  const cursor = brandModel
-    .findById(id)
-    .populate([
-      {
-        path: "createdBy",
-        select: "userName email",
-      },
-      {
-        path: "updatedBy",
-        select: "userName email",
-      },
-    ])
-    .cursor();
-  const brandCursor = await cursor.next();
-  if (brandCursor != null) {
-    const brand = brandCursor.toObject();
-    brand.products = await productModel
-      .find({ brandId: id })
-      .select("-brandId")
-      .populate([
-        {
-          path: "createdBy",
-          select: "userName email",
-        },
-        {
-          path: "updatedBy",
-          select: "userName email",
-        },
+  const result = await findById({model: brandModel,filter: id,populate: [
+    {
+      path: "createdBy",
+      select: "userName email",
+    },
+    {
+      path: "updatedBy",
+      select: "userName email",
+    },
+    {
+      path: "products",
+      populate: [
         {
           path: "categoryId",
-          select: "-subCategoryId",
+          populate: [
+            {
+              path: "createdBy",
+              select: "userName email",
+            },
+            {
+              path: "updatedBy",
+              select: "userName email",
+            },
+          ],
         },
         {
           path: "subCategoryId",
@@ -146,60 +130,66 @@ export const getBrand = asyncHandler(async (req, res, next) => {
             },
           ],
         },
-      ]);
-    return res.status(200).json({ message: "Done", brand });
-  } else {
+        {
+          path: 'reviews'
+        },
+        {
+          path: "createdBy",
+          select: "userName email",
+        },
+        {
+          path: "updatedBy",
+          select: "userName email",
+        },
+      ]
+    }
+  ]});
+  if (!result) {
     return next(new Error("In-Valid brand id", { cause: 404 }));
   }
+  const brand = result.toObject()
+  if (brand.products.length) {
+    for (const product of brand.products) {
+      if (product.reviews.length) {
+        let avgRate = 0
+        for (const review of product.reviews) {
+          avgRate += review.rating;
+        }
+        product.avgRate = +(avgRate/product.reviews.length).toFixed(2)
+      }
+    }
+  }
+  return res.status(200).json({ message: "Done", brand })
 });
+// get all brands
 export const getBrands = asyncHandler(async (req, res, next) => {
-  const { skip, limit } = paginate(req.query.page, req.query.size);
-  // const brands = await find({model : brandModel, populate: [
-  //   {
-  //     path: "createdBy",
-  //     select: "userName email",
-  //   },
-  //   {
-  //     path: "updatedBy",
-  //     select: "userName email",
-  //   },
-  // ], limit, skip})
-  // brands.length
-  //   ? return res.status(200).json({ message: "Done", brands })
-  //   : return next(new Error("Categories Not found", { cause: 404 }));
-  const cursor = brandModel
-    .find({})
-    .populate([
-      {
-        path: "createdBy",
-        select: "userName email",
-      },
-      {
-        path: "updatedBy",
-        select: "userName email",
-      },
-    ])
-    .limit(limit)
-    .skip(skip)
-    .cursor();
-  const brands = [];
-  for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
-    const brand = doc.toObject();
-    brand.products = await productModel
-      .find({ brandId: doc._id })
-      .select("-brandId")
-      .populate([
-        {
-          path: "createdBy",
-          select: "userName email",
-        },
-        {
-          path: "updatedBy",
-          select: "userName email",
-        },
+  const {page, size, sortedField, orderedBy} = req.query
+  const { skip, limit } = paginate({page, size});
+  const sort= sorting({orderedBy, sortedField})
+  const result = await find({model : brandModel, populate: [
+    {
+      path: "createdBy",
+      select: "userName email",
+    },
+    {
+      path: "updatedBy",
+      select: "userName email",
+    },
+    {
+      path: "products",
+      populate: [
         {
           path: "categoryId",
-          select: "-subCategoryId",
+          populate: [
+            {
+              path: "createdBy",
+              select: "userName email",
+            },
+            {
+              path: "updatedBy",
+              select: "userName email",
+            },
+          ],
         },
         {
           path: "subCategoryId",
@@ -215,11 +205,38 @@ export const getBrands = asyncHandler(async (req, res, next) => {
             },
           ],
         },
-      ]);
-    brands.push(brand);
+        {
+          path: 'reviews'
+        },
+        {
+          path: "createdBy",
+          select: "userName email",
+        },
+        {
+          path: "updatedBy",
+          select: "userName email",
+        },
+      ]
+    }
+  ], limit, skip, sort})
+  if (!result.length) {
+    return next(new Error("Brands Not found", { cause: 404 }));
   }
-  if (brands.length) {
-    return res.status(200).json({ message: "Done", brands })
+  const brands = []
+  for (const brand of result) {
+    const convBrand = brand.toObject()
+    if (convBrand.products.length) {
+      for (const product of convBrand.products) {
+        if (product.reviews.length) {
+          let avgRate = 0
+          for (const review of product.reviews) {
+            avgRate += review.rating;
+          }
+          product.avgRate = +(avgRate/product.reviews.length).toFixed(2)
+        }
+      }
+    }
+    brands.push(convBrand)
   }
-  return next(new Error("Brands Not found", { cause: 404 }));
+  return res.status(200).json({ message: "Done", brands })
 });

@@ -13,9 +13,9 @@ router.post('/', myMulter(validationTypes.image).single('image'),validation(vali
 // update brand by id
 router.put('/:id', myMulter(validationTypes.image).single('image'),validation(validators.updateBrand), auth(endPoints.updateBrand), brandController.updateBrand)
 // get all brands
-router.get('/', validation(validators.getBrands), auth(endPoints.getBrand),brandController.getBrands)
+router.get('/', validation(validators.getBrands), brandController.getBrands)
 // get brand by id
-router.get('/:id',validation(validators.getBrand), auth(endPoints.getBrands),brandController.getBrand)
+router.get('/:id',validation(validators.getBrandById), brandController.getBrandById)
 
 
 

@@ -2,10 +2,10 @@ import { roles } from "../../middleware/auth.js";
 
 
 const endPoints = {
-    addBrand : [roles.Admin],
-    updateBrand: [roles.Admin],
-    getBrand: [roles.Admin, roles.User],
-    getBrands: [roles.Admin, roles.User]
+    addBrand : [roles.SuperAdmin, roles.Admin],
+    updateBrand: [roles.SuperAdmin, roles.Admin],
+    getBrand: [ roles.SuperAdmin, roles.Admin, roles.SubAdmin, roles.User],
+    getBrands: [ roles.SuperAdmin, roles.Admin, roles.SubAdmin, roles.User]
 }
 
 export default endPoints

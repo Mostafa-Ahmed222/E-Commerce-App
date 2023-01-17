@@ -1,18 +1,23 @@
 import categoryModel from "../../../../DB/model/Category.model.js";
-import subCategoryModel from "../../../../DB/model/SubCategory.model.js";
 import asyncHandler from "./../../../services/handelError.js";
 import cloudinary from "./../../../services/cloudinary.js";
 import slugify from "slugify";
 import {
   create,
+  find,
+  findById,
   findByIdAndUpdate,
   findOne,
 } from "./../../../../DB/DBMethods.js";
 import paginate from "../../../services/paginate.js";
+import sorting from "../../../services/sorting.js";
 
+// add category
 export const addCategory = asyncHandler(async (req, res, next) => {
   if (!req.file) {
-    return next(new Error("image is required please upload it", { cause: 400 }));
+    return next(
+      new Error("image is required please upload it", { cause: 400 })
+    );
   } else {
     const { name } = req.body;
     const category = await findOne({
@@ -48,6 +53,7 @@ export const addCategory = asyncHandler(async (req, res, next) => {
     }
   }
 });
+// update category by id
 export const updateCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   if (req.file) {
@@ -83,86 +89,163 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
     return next(new Error("in-valid category id", { cause: 404 }));
   }
 });
-export const getCategory = asyncHandler(async (req, res, next) => {
+// get category by id
+export const getCategoryById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  // const category = await findById({model: categoryModel,filter: id,populate: [
-  //   {
-  //     path: "createdBy",
-  //     select: "userName email",
-  //   },
-  // ]});
-  const cursor = categoryModel
-    .findById(id)
-    .populate([
+  const result = await findById({
+    model: categoryModel,
+    filter: id,
+    populate: [
       {
         path: "createdBy",
         select: "userName email",
       },
       {
-        path: "updatedBy",
-        select: "userName email",
+        path: "subCategories",
+        populate: [
+          {
+            path: "createdBy",
+            select: "userName email",
+          },
+          {
+            path: "updatedBy",
+            select: "userName email",
+          },
+          {
+            path: "products",
+            populate: [
+              {
+                path: "brandId",
+                populate: [
+                  {
+                    path: "createdBy",
+                    select: "userName email",
+                  },
+                  {
+                    path: "updatedBy",
+                    select: "userName email",
+                  },
+                ],
+              },
+              {
+                path: "reviews",
+              },
+              {
+                path: "createdBy",
+                select: "userName email",
+              },
+              {
+                path: "updatedBy",
+                select: "userName email",
+              },
+            ],
+          },
+        ],
       },
-    ])
-    .cursor();
-  const categoryCursor = await cursor.next();
-  if (categoryCursor != null) {
-    const category = categoryCursor.toObject();
-    category.subCategories = await subCategoryModel
-      .find({ categoryId: id })
-      .populate([
-        {
-          path: "createdBy",
-          select: "userName email",
-        },
-        {
-          path: "updatedBy",
-          select: "userName email",
-        },
-      ]);
-    return res.status(200).json({ message: "Done", category });
-  } else {
+    ],
+  });
+  if (!result) {
     return next(new Error("In-Valid category id", { cause: 404 }));
   }
-  // category
-  //   ? res.status(200).json({ message: "Done", category })
-  //   : return next(new Error("In-Valid category id", { cause: 404 }));
+  const category = result.toObject();
+  if (category.subCategories.length) {
+    for (const subCategory of category.subCategories) {
+      if (subCategory.products.length) {
+        for (const product of subCategory.products) {
+          if (product.reviews.length) {
+            let avgRate = 0;
+            for (const review of product.reviews) {
+              avgRate += review.rating;
+            }
+            product.avgRate = +(avgRate / product.reviews.length).toFixed(2);
+          }
+        }
+      }
+    }
+  }
+  return res.status(200).json({ message: "Done", category });
 });
+// get all categories
 export const getCategories = asyncHandler(async (req, res, next) => {
-  // const { skip, limit } = paginate(req.query.page, req.query.size);
-  const cursor = categoryModel
-    .find({})
-    .populate([
+  const { page, size, sortedField, orderedBy } = req.query;
+  const { skip, limit } = paginate({ page, size });
+  const sort = sorting({ orderedBy, sortedField });
+  const result = await find({
+    model: categoryModel,
+    populate: [
       {
         path: "createdBy",
         select: "userName email",
       },
       {
-        path: "updatedBy",
-        select: "userName email",
+        path: "subCategories",
+        populate: [
+          {
+            path: "createdBy",
+            select: "userName email",
+          },
+          {
+            path: "updatedBy",
+            select: "userName email",
+          },
+          {
+            path: "products",
+            populate: [
+              {
+                path: "brandId",
+                populate: [
+                  {
+                    path: "createdBy",
+                    select: "userName email",
+                  },
+                  {
+                    path: "updatedBy",
+                    select: "userName email",
+                  },
+                ],
+              },
+              {
+                path: "reviews",
+              },
+              {
+                path: "createdBy",
+                select: "userName email",
+              },
+              {
+                path: "updatedBy",
+                select: "userName email",
+              },
+            ],
+          },
+        ],
       },
-    ])
-    // .limit(limit)
-    // .skip(skip)
-    .cursor();
-  const categories = [];
-  for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
-    const category = doc.toObject();
-    category.subCategories = await subCategoryModel
-      .find({ categoryId: doc._id })
-      .populate([
-        {
-          path: "createdBy",
-          select: "userName email",
-        },
-        {
-          path: "updatedBy",
-          select: "userName email",
-        },
-      ]);
-    categories.push(category);
+    ],
+    skip,
+    limit,
+    sort,
+  });
+  if (!result.length) {
+    return next(new Error("Categories Not found", { cause: 404 }));
   }
-  if (categories.length) {
-    return res.status(200).json({ message: "Done", categories })
+  const categories = []
+  for (const category of result) {
+    const convCategory = category.toObject()
+    if (convCategory.subCategories.length) {
+      for (const subCategory of convCategory.subCategories) {
+        if (subCategory.products.length) {
+          for (const product of subCategory.products) {
+            if (product.reviews.length) {
+              let avgRate = 0;
+              for (const review of product.reviews) {
+                avgRate += review.rating;
+              }
+              product.avgRate = +(avgRate / product.reviews.length).toFixed(2);
+            }
+          }
+        }
+      }
+    }
+    categories.push(convCategory)
   }
-  return next(new Error("Categories Not found", { cause: 404 }));
+  return res.status(200).json({ message: "Done", categories });
 });

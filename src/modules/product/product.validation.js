@@ -35,3 +35,21 @@ export const updateProduct = {
     authorization: joi.string().required()
   }).options({allowUnknown : true})
 }
+
+export const getProducts = {
+  query: joi.object().required().keys({
+    page: joi.number(),
+    size: joi.number(),
+    sortedField: joi.string(),
+    orderedBy: joi.number().valid(1, -1)
+  })
+}
+
+export const getProductById = {
+  params : joi.object().required().keys({
+    id: joi
+        .string()
+        .pattern(new RegExp(/^[a-fA-F0-9]{24}$/))
+        .required(),
+  }),
+}

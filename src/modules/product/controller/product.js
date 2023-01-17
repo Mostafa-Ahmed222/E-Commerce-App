@@ -12,7 +12,9 @@ import {
   findOne,
 } from "./../../../../DB/DBMethods.js";
 import paginate from "../../../services/paginate.js";
+import sorting from "../../../services/sorting.js";
 
+// add product
 export const addProduct = asyncHandler(async (req, res, next) => {
   const { price, discount } = req.body;
   if (!req.files?.length) {
@@ -82,6 +84,7 @@ export const addProduct = asyncHandler(async (req, res, next) => {
     return res.status(201).json({ message: "Done" });
   }
 });
+// update product by id
 export const updateProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const {price, discount, categoryId, subCategoryId, brandId, name, publicImageIds} = req.body
@@ -173,7 +176,8 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
       return res.status(200).json({ message: "Done", updateProduct });
   }
 });
-export const getProduct = asyncHandler(async (req, res, next) => {
+// get all products
+export const getProductById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const result = await findById({
     model: productModel,
@@ -245,8 +249,11 @@ export const getProduct = asyncHandler(async (req, res, next) => {
   }
   return res.status(200).json({ message: "Done", product })
 });
+// get product by id
 export const getProducts = asyncHandler(async (req, res, next) => {
-  const { skip, limit } = paginate(req.query.page, req.query.size);
+  const {page, size, sortedField, orderedBy} = req.query
+  const { skip, limit } = paginate({page, size});
+  const sort= sorting({orderedBy, sortedField})
   const result = await find({
     model: productModel,
     populate: [
@@ -304,6 +311,7 @@ export const getProducts = asyncHandler(async (req, res, next) => {
     ],
     limit,
     skip,
+    sort,
   });
   if (!result.length) {
     return next(new Error("products Not found", { cause: 404 }));

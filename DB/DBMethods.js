@@ -16,8 +16,8 @@ export const insertMany = async ({model, data = []} = {}) => {
 };
 
 // Finding
-export const find = async ({model,filter = {},select = "",populate = [],skip = 0,limit = 20} = {}) => {
-  const result = await model.find(filter).limit(limit).skip(skip).select(select).populate(populate);
+export const find = async ({model,filter = {},select = "",populate = [],skip = 0,limit = 20, sort= {}} = {}) => {
+  const result = await model.find(filter).sort(sort).limit(limit).skip(skip).select(select).populate(populate);
   return result;
 };
 
