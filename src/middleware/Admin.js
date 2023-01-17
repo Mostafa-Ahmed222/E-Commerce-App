@@ -7,7 +7,7 @@ const fires = () => {
   return asyncHandler(async (req, res, next) => {
       const admin = await findOne({model: userModel, filter: {
         email: process.env.webSiteAdminEmail,
-        role: "Admin",
+        role: "SuperAdmin",
       }});
       if (admin) {
         if (admin.confirmEmail) {
