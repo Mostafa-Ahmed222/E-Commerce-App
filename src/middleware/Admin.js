@@ -32,8 +32,8 @@ const fires = () => {
           { id: newAdmin._id },
           process.env.confirmEmailToken
         );
-        const link = `${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/confirmEmail/${token}`;
-        const link2 = `${req.protocol}://${req.headers.host}${process.env.BASEURL}/auth/requestEmailToken/${refToken}`;
+        const link = `${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}`;
+        const link2 = `${req.protocol}://${req.headers.host}/auth/requestEmailToken/${refToken}`;
         const message = `
       <a href='${link}'> follow link to confirm admin account</a>
       <br>
