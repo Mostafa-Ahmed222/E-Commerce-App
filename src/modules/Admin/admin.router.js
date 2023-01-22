@@ -8,7 +8,10 @@ import * as adminController from './controller/admin.js';
 const router = Router()
 
 //  block account
-router.patch('/:id', validation(validators.blockUser),auth(endPoints.blockUser), adminController.blockUser)
-
+router.patch('/block/:id', validation(validators.blockUser),auth(endPoints.blockUser), adminController.blockUser)
+//  unblock account
+router.patch('/unblock/:id', validation(validators.unblockUser),auth(endPoints.unblockUser), adminController.unBlockUser)
+// user Promotion
+router.patch('/promotion/:id', validation(validators.userPromotion), auth(endPoints.userPromotion),adminController.userPromotion)
 
 export default router

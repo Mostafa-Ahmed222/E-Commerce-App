@@ -8,5 +8,6 @@ const connectDB = async()=>{
         console.log(`connectDB on ${process.env.DBURL} ${err}`)
     })
 }
+// to avoid deprecated mongoose
 mongoose.set('strictQuery', false);
 export default connectDB

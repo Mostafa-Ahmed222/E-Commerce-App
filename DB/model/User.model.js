@@ -33,6 +33,7 @@ const userSchema = new Schema(
         type: Boolean,
         default: false,
     },
+    promotedBy: {type : Types.ObjectId, ref : 'User'},
     image: String,
     publicImageId : String,
     DOB: String,
