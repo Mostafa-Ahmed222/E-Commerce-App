@@ -16,7 +16,7 @@ router.patch('/softDelete', validation(validators.softDelete), auth(endPoints.so
 // get all users
 router.get('/', validation(validators.getAllUsers),auth(endPoints.getUsers), userController.getAllUsers)
 //  get user by id
-router.get('/:id', validation(validators.idAndToken),auth(endPoints.getUser), userController.getUserById)
+router.get('/:id', validation(validators.getUserById),auth(endPoints.getUser), userController.getUserById)
 
 
 export default router
