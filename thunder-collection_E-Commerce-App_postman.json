@@ -1,0 +1,1622 @@
+{
+    "info": {
+        "name": "E-Commerce-App",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "signup",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/auth/signup",
+                            "path": [
+                                "auth",
+                                "signup"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n\"userName\": \"Mostafa\",\n\"email\": \"mostafaelgen1998@gmail.com\",\n\"phone\": \"01124284915\",\n\"DOB\": \"22/2/1998\",\n\"password\": \"12345Mm@\",\n\"cPassword\" : \"12345Mm@\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "signin",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/auth/signin",
+                            "path": [
+                                "auth",
+                                "signin"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n\"email\": \"mostafa.ahmed.salah.222@gmail.com\",\n\"password\": \"12345Mm@\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Send Access Code",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/auth/accessCode",
+                            "path": [
+                                "auth",
+                                "accessCode"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n\"email\": \"mostafa.ahmed.salah.222@gmail.com\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "forget password",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/auth/forgetPassword",
+                            "path": [
+                                "auth",
+                                "forgetPassword"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n\"email\": \"mostafa.ahmed.salah.222@gmail.com\",\n\"code\": \"L7cZhNyeR5J907qhMeYdU\",\n\"newPassword\": \"12345Mm@\",\n\"cPassword\": \"12345Mm@\"\n\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Admin",
+            "item": [
+                {
+                    "name": "Block Account",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user/admin/block/640205e0386e30e127860b19",
+                            "path": [
+                                "user",
+                                "admin",
+                                "block",
+                                "640205e0386e30e127860b19"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "unBlock Account",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user/admin/unblock/640205e0386e30e127860b19",
+                            "path": [
+                                "user",
+                                "admin",
+                                "unblock",
+                                "640205e0386e30e127860b19"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "user Promotion",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user/admin/promotion/640205e0386e30e127860b19",
+                            "path": [
+                                "user",
+                                "admin",
+                                "promotion",
+                                "640205e0386e30e127860b19"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"role\": \"Admin\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "update Password",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user/updatePassword",
+                            "path": [
+                                "user",
+                                "updatePassword"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"oldPassword\": \"12345Cm@\",\n  \"newPassword\": \"12345Mm@\",\n  \"cPassword\": \"12345Mm@\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "soft delete",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user/softDelete",
+                            "path": [
+                                "user",
+                                "softDelete"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get all users",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user?page=1&size=5",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "5"
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "user"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get user by id",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/user/640205e0386e30e127860b19",
+                            "path": [
+                                "user",
+                                "640205e0386e30e127860b19"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Category",
+            "item": [
+                {
+                    "name": "add category",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/category",
+                            "path": [
+                                "category"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "children Clothes",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "update category",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/category/6402213d830f5e68eaa55733",
+                            "path": [
+                                "category",
+                                "6402213d830f5e68eaa55733"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "Clothes",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "get category by id",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/category/6402213d830f5e68eaa55733",
+                            "path": [
+                                "category",
+                                "6402213d830f5e68eaa55733"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get Categories",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/category?orderedBy=-1",
+                            "query": [
+                                {
+                                    "key": "orderedBy",
+                                    "value": "-1"
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "category"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "electronics",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "SubCategory",
+            "item": [
+                {
+                    "name": "add SubCategory",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/category/6402213d830f5e68eaa55733/subCategory",
+                            "path": [
+                                "category",
+                                "6402213d830f5e68eaa55733",
+                                "subCategory"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "children Clothes",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "update SubCategory",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/category/6402213d830f5e68eaa55733/subCategory/6402229b830f5e68eaa5574c",
+                            "path": [
+                                "category",
+                                "6402213d830f5e68eaa55733",
+                                "subCategory",
+                                "6402229b830f5e68eaa5574c"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "children",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "d:\\photo\\other photo\\FB_IMG_1544516829560.jpg",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "get SubCategory by id",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/subCategory/6402229b830f5e68eaa5574c",
+                            "path": [
+                                "subCategory",
+                                "6402229b830f5e68eaa5574c"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get subCategories",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/subCategory?page=1&size=1",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "orderedBy",
+                                    "value": "-1",
+                                    "disabled": true
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "subCategory"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "children",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Brand",
+            "item": [
+                {
+                    "name": "add brand",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/brand",
+                            "path": [
+                                "brand"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "adidas",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "update brand",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/brand/640223ce830f5e68eaa55764",
+                            "path": [
+                                "brand",
+                                "640223ce830f5e68eaa55764"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "adidas",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\download.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "get brand by id",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/brand/640223ce830f5e68eaa55764",
+                            "path": [
+                                "brand",
+                                "640223ce830f5e68eaa55764"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get brands",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/brand?orderedBy=1",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "2",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "orderedBy",
+                                    "value": "1"
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "brand"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "adidas",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Product",
+            "item": [
+                {
+                    "name": "add product",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product",
+                            "path": [
+                                "product"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "Blover",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Blover for children",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "amount",
+                                    "value": "100",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "price",
+                                    "value": "300",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "colors",
+                                    "value": "black",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "colors",
+                                    "value": "silver",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "sizes",
+                                    "value": "l",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "sizes",
+                                    "value": "xl",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "categoryId",
+                                    "value": "6402213d830f5e68eaa55733",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "subCategoryId",
+                                    "value": "6402229b830f5e68eaa5574c",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "brandId",
+                                    "value": "640223ce830f5e68eaa55764",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "discount",
+                                    "value": "10",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "update product",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product/64022890c470aed2b5f2f271",
+                            "path": [
+                                "product",
+                                "64022890c470aed2b5f2f271"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "t-shirt",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "price",
+                                    "value": "6800",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "discount",
+                                    "value": "50",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "amount",
+                                    "value": "370",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\shopping.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "get product by id",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product/64022890c470aed2b5f2f271",
+                            "path": [
+                                "product",
+                                "64022890c470aed2b5f2f271"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get products",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product?orderedBy=1&sortedField=price",
+                            "query": [
+                                {
+                                    "key": "orderedBy",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "sortedField",
+                                    "value": "price"
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "product"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "t-shirt",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "add to wishlist",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product/639101cf6162960a47bc5f47/wishlist/add",
+                            "path": [
+                                "product",
+                                "639101cf6162960a47bc5f47",
+                                "wishlist",
+                                "add"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "electronics",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "remove from wishlist",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product/639101cf6162960a47bc5f47/wishlist/remove",
+                            "path": [
+                                "product",
+                                "639101cf6162960a47bc5f47",
+                                "wishlist",
+                                "remove"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "electronics",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Coupon",
+            "item": [
+                {
+                    "name": "create coupon",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/coupon",
+                            "path": [
+                                "coupon"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"name\": \"el7elm\",\n  \"amount\": \"50\",\n  \"expireDate\": \"22/3/2023 6:22:16\"\n  \n}"
+                        }
+                    }
+                },
+                {
+                    "name": "update coupon",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/coupon/64022a23c470aed2b5f2f2a9",
+                            "path": [
+                                "coupon",
+                                "64022a23c470aed2b5f2f2a9"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"name\": \"kokakola severny\",\n  \"amount\": \"10\",\n  \"expireDate\": \"22/4/2023 10:22:16\"\n  \n}"
+                        }
+                    }
+                },
+                {
+                    "name": "delete coupon ",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/coupon/64022a23c470aed2b5f2f2a9",
+                            "path": [
+                                "coupon",
+                                "64022a23c470aed2b5f2f2a9"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "Oppo",
+                                    "disabled": true,
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "image",
+                                    "src": "c:\\Users\\Mostafa Ahmed\\Desktop\\download.png",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "get coupon by name",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/coupon/el7elm",
+                            "path": [
+                                "coupon",
+                                "el7elm"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get coupons",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/coupon?page=2&size=1",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "2"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "1"
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "coupon"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "el7elm",
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Cart",
+            "item": [
+                {
+                    "name": "create cart",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/cart",
+                            "path": [
+                                "cart"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"products\": [\n    {\n    \"productId\": \"64022890c470aed2b5f2f271\",\n    \"quantity\" : 70\n  },\n    {\n    \"productId\": \"64022c66c470aed2b5f2f2de\",\n    \"quantity\" : 20\n  }\n  ]\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "delete cart",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/cart/64022890c470aed2b5f2f271",
+                            "path": [
+                                "cart",
+                                "64022890c470aed2b5f2f271"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get cart",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/cart",
+                            "path": [
+                                "cart"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "name",
+                                    "value": "t-shirt",
+                                    "disabled": true,
+                                    "type": "default"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Order",
+            "item": [
+                {
+                    "name": "create order",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/order",
+                            "path": [
+                                "order"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"products\": [\n    {\n    \"productId\": \"64022c66c470aed2b5f2f2de\",\n    \"quantity\" : 1\n  },\n    {\n    \"productId\": \"64022890c470aed2b5f2f271\",\n    \"quantity\" : 3\n  }\n  ],\n  \"address\": \"10 ammar st el-giza\",\n  \"phone\": \"01113078143\",\n  \"couponId\": \"640229dfc470aed2b5f2f298\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "update order",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/order/64022f46c470aed2b5f2f347",
+                            "path": [
+                                "order",
+                                "64022f46c470aed2b5f2f347"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"products\": [\n    {\n    \"productId\": \"64022890c470aed2b5f2f271\",\n    \"quantity\" : 8\n  },\n    {\n    \"productId\": \"64022c66c470aed2b5f2f2de\",\n    \"quantity\" : 1\n  }\n  ],\n  \"address\": \"apo elnomros el-giza\",\n  \"phone\": \"01550396165\",\n  \"couponId\" : \"640229dfc470aed2b5f2f298\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "delete order",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/order/64022f46c470aed2b5f2f347",
+                            "path": [
+                                "order",
+                                "64022f46c470aed2b5f2f347"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "get order",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/order",
+                            "path": [
+                                "order"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reviews",
+            "item": [
+                {
+                    "name": "add review",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/product/64022c66c470aed2b5f2f2de/review",
+                            "path": [
+                                "product",
+                                "64022c66c470aed2b5f2f2de",
+                                "review"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"message\": \"good\",\n  \"rating\": 4\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "update review",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/review/640231704c5d7c853e9339ec",
+                            "path": [
+                                "review",
+                                "640231704c5d7c853e9339ec"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"message\": \"good \",\n  \"rating\": 2.3333\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "delete review",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "https://e-commerce-app-eta-sepia.vercel.app/review/6399bb86a5cf46baec883532",
+                            "path": [
+                                "review",
+                                "6399bb86a5cf46baec883532"
+                            ],
+                            "protocol": "https",
+                            "host": [
+                                "e-commerce-app-eta-sepia",
+                                "vercel",
+                                "app"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "authorization",
+                                "value": "_E-C@a_M_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2RhY2NhN2Y0ZjZlYzkxZTQ0NjUwOCIsImlzTG9nZ2VkSW4iOnRydWUsImlhdCI6MTY3Nzg1NDg2OCwiZXhwIjoxNjc3OTQxMjY4fQ.03_f71G7t9mJd_Ut0X36tj4MW-Sz7_pF7CCt8KnMeKw"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
